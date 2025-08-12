@@ -32,7 +32,6 @@ app.post("/api/login", (req, res) => {
     res.status(401).json({ success: false, message: "Geçersiz kullanıcı adı veya şifre" });
 });
 
-// === OKULLAR ENDPOINT ===
 app.get("/api/okullar", (req, res) => {
     try {
         if (!fs.existsSync(okullarPath)) {
@@ -53,7 +52,6 @@ app.get("/api/okullar", (req, res) => {
     }
 });
 
-// === SERVİSLER ENDPOINT ===
 app.get("/api/servisler", (req, res) => {
     try {
         const okulId = parseInt(req.query.okulId, 10);
@@ -85,7 +83,6 @@ app.get("/api/servisler", (req, res) => {
     }
 });
 
-// === STUDENTS ENDPOINT ===
 app.get("/api/students", (req, res) => {
     try {
         if (!fs.existsSync(studentsPath)) {
@@ -106,7 +103,6 @@ app.get("/api/students", (req, res) => {
     }
 });
 
-// === STUDENT DETAIL ENDPOINT ===
 app.get("/api/students/:tc", (req, res) => {
     try {
         if (!fs.existsSync(studentsPath)) {
@@ -125,7 +121,33 @@ app.get("/api/students/:tc", (req, res) => {
     }
 });
 
-// === UPDATE STUDENT ENDPOINT (PUT) ===
+// --- Yeni eklenen öğrenci ekleme endpointi ---
+app.post("/api/students", (req, res) => {
+    const newStudent = req.body;
+
+    try {
+        let students = [];
+        if (fs.existsSync(studentsPath)) {
+            const data = fs.readFileSync(studentsPath, "utf-8");
+            students = JSON.parse(data);
+        }
+
+        // Aynı TC var mı kontrol et
+        if (students.find((s) => s.tc === newStudent.tc)) {
+            return res.status(400).json({ message: "Bu TC ile kayıt zaten var" });
+        }
+
+        students.push(newStudent);
+
+        fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
+
+        res.status(201).json({ message: "Öğrenci başarıyla eklendi" });
+    } catch (err) {
+        console.error("Öğrenci eklenirken hata:", err);
+        res.status(500).json({ message: "Sunucu hatası" });
+    }
+});
+
 app.put("/api/students/:tc", (req, res) => {
     const tc = req.params.tc;
     const updatedData = req.body;
@@ -144,7 +166,6 @@ app.put("/api/students/:tc", (req, res) => {
             return res.status(404).json({ message: "Öğrenci bulunamadı" });
         }
 
-        // Güncelleme yapılıyor, TC değişmez
         students[index] = { ...students[index], ...updatedData, tc };
 
         fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
@@ -156,7 +177,6 @@ app.put("/api/students/:tc", (req, res) => {
     }
 });
 
-// === USER LOGS ENDPOINT ===
 app.get("/api/logs", (req, res) => {
     try {
         if (!fs.existsSync(userLogsPath)) {
