@@ -1,19 +1,24 @@
 [
   {
-    "ad": "23",
-    "soyad": "23",
-    "konum": "37.866700, 32.510515",
-    "telefon": "222 222 22 22",
-    "tc": "14121253232",
-    "okulId": "1",
-    "servisId": "3",
-    "servisAdi": "1-B - SAL-PER-CMT 10.00",
-    "plaka": "34XYZ12",
-    "surucu": "Mehmet Yılmaz",
-    "veli": "32432",
-    "sabah": false,
-    "aksam": true,
-    "ogrenciId": "1354",
-    "addedBy": "Cemal"
+    "tc": "12345678901",
+    "ad": "Ahmet",
+    "soyad": "Yılmaz",
+    "okulId": 1,
+    "ogrenciId": "1001",
+    "veli": "Mehmet Yılmaz",
+    "guzergah": "1",
+    "servisAdi": "Servis A",
+    "servisSaati": "08:00"
+  },
+  {
+    "tc": "10987654321",
+    "ad": "Ayşe",
+    "soyad": "Demir",
+    "okulId": 2,
+    "ogrenciId": "1002",
+    "veli": "Fatma Demir",
+    "guzergah": "2",
+    "servisAdi": "Servis B",
+    "servisSaati": "08:30"
   }
 ]

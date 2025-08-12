@@ -4,7 +4,6 @@ import path from "path";
 import cors from "cors";
 import { fileURLToPath } from "url";
 
-// __dirname ve __filename tanımı (ES module için)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -16,7 +15,8 @@ app.use(express.json());
 
 const okullarPath = path.join(__dirname, "okullar.json");
 const servislerPath = path.join(__dirname, "servisler.json");
-const userLogsPath = path.join(__dirname, "userlogs.json");  // userlogs.json dosya yolu
+const userLogsPath = path.join(__dirname, "userlogs.json");
+const studentsPath = path.join(__dirname, "students.json");
 
 // === LOGIN ENDPOINT ===
 app.post("/api/login", (req, res) => {
@@ -85,7 +85,28 @@ app.get("/api/servisler", (req, res) => {
     }
 });
 
-// === LOGS ENDPOINT ===
+// === STUDENTS ENDPOINT ===
+app.get("/api/students", (req, res) => {
+    try {
+        if (!fs.existsSync(studentsPath)) {
+            return res.json([]);
+        }
+        const data = fs.readFileSync(studentsPath, "utf-8");
+        let students = [];
+        try {
+            students = JSON.parse(data);
+        } catch (parseErr) {
+            console.error("students.json parse hatası:", parseErr);
+            return res.json([]);
+        }
+        res.json(students);
+    } catch (err) {
+        console.error("Öğrenciler alınırken hata:", err);
+        res.status(500).json({ success: false, message: "Öğrenciler alınamadı" });
+    }
+});
+
+// === USER LOGS ENDPOINT ===
 app.get("/api/logs", (req, res) => {
     try {
         if (!fs.existsSync(userLogsPath)) {
