@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditStudent() {
-  const { tc } = useParams(); // URL’den öğrencinin TC kimliği
+  const { tc } = useParams();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -20,8 +20,9 @@ export default function EditStudent() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [okullar, setOkullar] = useState([]);
   const [servisler, setServisler] = useState([]);
-  const [servisAra, setServisAra] = useState("");
+  const [servisAra, setServisAra] = useState([]);
 
   // Öğrenci verisini çek
   useEffect(() => {
@@ -37,32 +38,56 @@ export default function EditStudent() {
       .catch((err) => setError(err.message));
   }, [tc]);
 
-  // Servis listesini getir
+  // Okul listesini getir
   useEffect(() => {
-    fetch("http://localhost:5015/api/servisler")
+    fetch("http://localhost:5015/api/okullar")
+      .then((res) => res.json())
+      .then((data) => setOkullar(data))
+      .catch(() => setError("Okullar yüklenemedi"));
+  }, []);
+
+  // Servisleri getir, okul seçimine göre filtrele
+  useEffect(() => {
+    if (!form.okulAdi) {
+      setServisler([]);
+      return;
+    }
+    // Okul adından okulId'yi bul
+    const okul = okullar.find((o) => o.ad === form.okulAdi);
+    if (!okul) {
+      setServisler([]);
+      return;
+    }
+
+    fetch(`http://localhost:5015/api/servisler?okulId=${okul.id}`)
       .then((res) => res.json())
       .then((data) => setServisler(data))
       .catch(() => setError("Servisler yüklenemedi"));
-  }, []);
+  }, [form.okulAdi, okullar]);
+
+  // Servis arama için filtre
+  const filtrelenmisServisler = servisler
+    .filter((s) =>
+      s.servisAdi.toLowerCase().includes(servisAra.toLowerCase())
+    )
+    .map((s) => s.servisAdi);
 
   const handleChange = (e) => {
     setForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
+      // Servis seçimini okul değiştiğinde sıfırla
+      ...(e.target.name === "okulAdi" ? { servisAdi: "" } : {}),
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
-    // Buradaki form alanlarının kontrolü kaldırıldı
-    // Yani form validation yok, direkt submit olacak
-
     setLoading(true);
     try {
       const res = await fetch(`http://localhost:5015/api/students/${form.tc}`, {
-        method: "PUT", // Güncelleme için PUT kullanıyoruz
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
@@ -76,17 +101,13 @@ export default function EditStudent() {
       }
 
       navigate("/home/assignments");
-    } catch (err) {
+    } catch {
       setError("Sunucuya bağlanılamadı");
       setLoading(false);
     }
   };
 
-  const filtrelenmisServisler = servisler.filter((s) =>
-    s.toLowerCase().includes(servisAra.toLowerCase())
-  );
-
-  // Form başlıklarını büyük harfe çevirme fonksiyonu
+  // Büyük harfe çevirme fonksiyonu
   const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
   return (
@@ -121,7 +142,7 @@ export default function EditStudent() {
               placeholder={`${capitalize(name)} girin`}
               value={form[name] || ""}
               onChange={handleChange}
-              disabled={loading || name === "tc"} // TC kimliği değiştirilemez
+              disabled={loading || name === "tc"}
               className="border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-400 focus:border-indigo-600 transition"
               autoComplete="off"
             />
@@ -140,9 +161,11 @@ export default function EditStudent() {
             className="border border-gray-300 rounded-lg px-4 py-3 w-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-400 focus:border-indigo-600 transition"
           >
             <option value="">Okul seçin</option>
-
-            <option value="SELÇUKLU SPOR OKULLARI">SELÇUKLU SPOR OKULLARI</option>
-            <option value="İLİM YAYMA OKULU">İLİM YAYMA OKULU</option>
+            {okullar.map((okul) => (
+              <option key={okul.id} value={okul.ad}>
+                {okul.ad}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -156,16 +179,14 @@ export default function EditStudent() {
             className="border border-gray-300 rounded-lg px-4 py-2 w-full mb-3"
             value={servisAra}
             onChange={(e) => setServisAra(e.target.value)}
-            disabled={loading}
+            disabled={loading || !form.okulAdi}
           />
           <div className="max-h-40 overflow-y-auto space-y-2 border border-gray-200 rounded-md p-2 bg-gray-50">
             {filtrelenmisServisler.length > 0 ? (
               filtrelenmisServisler.map((servis, index) => (
                 <div
                   key={index}
-                  onClick={() =>
-                    setForm((prev) => ({ ...prev, servisAdi: servis }))
-                  }
+                  onClick={() => setForm((prev) => ({ ...prev, servisAdi: servis }))}
                   className={`px-4 py-2 rounded cursor-pointer select-none transition ${
                     form.servisAdi === servis
                       ? "bg-indigo-600 text-white font-semibold"
@@ -176,7 +197,9 @@ export default function EditStudent() {
                 </div>
               ))
             ) : (
-              <div className="text-gray-500 text-center py-2">Servis bulunamadı.</div>
+              <div className="text-gray-500 text-center py-2">
+                Servis bulunamadı.
+              </div>
             )}
           </div>
         </div>

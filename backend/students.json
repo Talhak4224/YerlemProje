@@ -36,10 +36,11 @@
     "sabah": true,
     "aksam": true,
     "ogrenciId": "4453",
-    "addedBy": "admin"
+    "addedBy": "admin",
+    "okulAdi": "SELÇUKLU SPOR OKULLARI"
   },
   {
-    "ad": "ömer",
+    "ad": "Frukan",
     "soyad": "taş",
     "konum": "37.895578491270264, 32.48484859526662",
     "telefon": "05450514367",

@@ -18,187 +18,217 @@ const servislerPath = path.join(__dirname, "servisler.json");
 const userLogsPath = path.join(__dirname, "userlogs.json");
 const studentsPath = path.join(__dirname, "students.json");
 
+// Yardımcı fonksiyon: log kaydet
+function addUserLog(logEntry) {
+  try {
+    let logs = [];
+    if (fs.existsSync(userLogsPath)) {
+      const data = fs.readFileSync(userLogsPath, "utf-8");
+      logs = JSON.parse(data);
+    }
+    logs.push(logEntry);
+    fs.writeFileSync(userLogsPath, JSON.stringify(logs, null, 2), "utf-8");
+  } catch (err) {
+    console.error("Log eklenirken hata:", err);
+  }
+}
+
 // === LOGIN ENDPOINT ===
 app.post("/api/login", (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    if (username === "admin" && password === "1234") {
-        return res.json({
-            success: true,
-            user: { username: "admin", role: "admin" }
-        });
-    }
+  if (username === "admin" && password === "1234") {
+    return res.json({
+      success: true,
+      user: { username: "admin", role: "admin" }
+    });
+  }
 
-    res.status(401).json({ success: false, message: "Geçersiz kullanıcı adı veya şifre" });
+  res.status(401).json({ success: false, message: "Geçersiz kullanıcı adı veya şifre" });
 });
 
 app.get("/api/okullar", (req, res) => {
-    try {
-        if (!fs.existsSync(okullarPath)) {
-            return res.json([]);
-        }
-        const data = fs.readFileSync(okullarPath, "utf-8");
-        let okullar = [];
-        try {
-            okullar = JSON.parse(data);
-        } catch (parseErr) {
-            console.error("okullar.json parse hatası:", parseErr);
-            return res.json([]);
-        }
-        res.json(okullar);
-    } catch (err) {
-        console.error("Okullar alınırken hata:", err);
-        res.status(500).json({ success: false, message: "Okullar alınamadı" });
+  try {
+    if (!fs.existsSync(okullarPath)) {
+      return res.json([]);
     }
+    const data = fs.readFileSync(okullarPath, "utf-8");
+    let okullar = [];
+    try {
+      okullar = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("okullar.json parse hatası:", parseErr);
+      return res.json([]);
+    }
+    res.json(okullar);
+  } catch (err) {
+    console.error("Okullar alınırken hata:", err);
+    res.status(500).json({ success: false, message: "Okullar alınamadı" });
+  }
 });
 
 app.get("/api/servisler", (req, res) => {
-    try {
-        const okulId = parseInt(req.query.okulId, 10);
-        if (isNaN(okulId)) {
-            return res.json([]);
-        }
-
-        if (!fs.existsSync(servislerPath)) {
-            return res.json([]);
-        }
-
-        const data = fs.readFileSync(servislerPath, "utf-8");
-        let servisler = [];
-        try {
-            servisler = JSON.parse(data);
-        } catch (parseErr) {
-            console.error("servisler.json parse hatası:", parseErr);
-            return res.json([]);
-        }
-
-        const filteredServisler = servisler.filter(
-            (s) => Number(s.okulId) === okulId
-        );
-
-        res.json(filteredServisler);
-    } catch (err) {
-        console.error("Servisler alınırken hata:", err);
-        res.status(500).json({ success: false, message: "Servisler alınamadı" });
+  try {
+    const okulId = parseInt(req.query.okulId, 10);
+    if (isNaN(okulId)) {
+      return res.json([]);
     }
+
+    if (!fs.existsSync(servislerPath)) {
+      return res.json([]);
+    }
+
+    const data = fs.readFileSync(servislerPath, "utf-8");
+    let servisler = [];
+    try {
+      servisler = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("servisler.json parse hatası:", parseErr);
+      return res.json([]);
+    }
+
+    const filteredServisler = servisler.filter(
+      (s) => Number(s.okulId) === okulId
+    );
+
+    res.json(filteredServisler);
+  } catch (err) {
+    console.error("Servisler alınırken hata:", err);
+    res.status(500).json({ success: false, message: "Servisler alınamadı" });
+  }
 });
 
 app.get("/api/students", (req, res) => {
-    try {
-        if (!fs.existsSync(studentsPath)) {
-            return res.json([]);
-        }
-        const data = fs.readFileSync(studentsPath, "utf-8");
-        let students = [];
-        try {
-            students = JSON.parse(data);
-        } catch (parseErr) {
-            console.error("students.json parse hatası:", parseErr);
-            return res.json([]);
-        }
-        res.json(students);
-    } catch (err) {
-        console.error("Öğrenciler alınırken hata:", err);
-        res.status(500).json({ success: false, message: "Öğrenciler alınamadı" });
+  try {
+    if (!fs.existsSync(studentsPath)) {
+      return res.json([]);
     }
+    const data = fs.readFileSync(studentsPath, "utf-8");
+    let students = [];
+    try {
+      students = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("students.json parse hatası:", parseErr);
+      return res.json([]);
+    }
+    res.json(students);
+  } catch (err) {
+    console.error("Öğrenciler alınırken hata:", err);
+    res.status(500).json({ success: false, message: "Öğrenciler alınamadı" });
+  }
 });
 
 app.get("/api/students/:tc", (req, res) => {
-    try {
-        if (!fs.existsSync(studentsPath)) {
-            return res.status(404).json({ message: "Öğrenci verisi bulunamadı" });
-        }
-        const data = fs.readFileSync(studentsPath, "utf-8");
-        const students = JSON.parse(data);
-        const student = students.find(s => s.tc === req.params.tc);
-        if (!student) {
-            return res.status(404).json({ message: "Öğrenci bulunamadı" });
-        }
-        res.json(student);
-    } catch (err) {
-        console.error("Öğrenci detayı alınırken hata:", err);
-        res.status(500).json({ message: "Sunucu hatası" });
+  try {
+    if (!fs.existsSync(studentsPath)) {
+      return res.status(404).json({ message: "Öğrenci verisi bulunamadı" });
     }
+    const data = fs.readFileSync(studentsPath, "utf-8");
+    const students = JSON.parse(data);
+    const student = students.find(s => s.tc === req.params.tc);
+    if (!student) {
+      return res.status(404).json({ message: "Öğrenci bulunamadı" });
+    }
+    res.json(student);
+  } catch (err) {
+    console.error("Öğrenci detayı alınırken hata:", err);
+    res.status(500).json({ message: "Sunucu hatası" });
+  }
 });
 
-// --- Yeni eklenen öğrenci ekleme endpointi ---
+// Öğrenci ekleme
 app.post("/api/students", (req, res) => {
-    const newStudent = req.body;
+  const newStudent = req.body;
 
-    try {
-        let students = [];
-        if (fs.existsSync(studentsPath)) {
-            const data = fs.readFileSync(studentsPath, "utf-8");
-            students = JSON.parse(data);
-        }
-
-        // Aynı TC var mı kontrol et
-        if (students.find((s) => s.tc === newStudent.tc)) {
-            return res.status(400).json({ message: "Bu TC ile kayıt zaten var" });
-        }
-
-        students.push(newStudent);
-
-        fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
-
-        res.status(201).json({ message: "Öğrenci başarıyla eklendi" });
-    } catch (err) {
-        console.error("Öğrenci eklenirken hata:", err);
-        res.status(500).json({ message: "Sunucu hatası" });
+  try {
+    let students = [];
+    if (fs.existsSync(studentsPath)) {
+      const data = fs.readFileSync(studentsPath, "utf-8");
+      students = JSON.parse(data);
     }
+
+    if (students.find((s) => s.tc === newStudent.tc)) {
+      return res.status(400).json({ message: "Bu TC ile kayıt zaten var" });
+    }
+
+    students.push(newStudent);
+    fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
+
+    // Log kaydet
+    addUserLog({
+      username: newStudent.username || "bilinmiyor",
+      action: "Yeni öğrenci eklendi",
+      studentTc: newStudent.tc,
+      timestamp: new Date().toISOString(),
+    });
+
+    res.status(201).json({ message: "Öğrenci başarıyla eklendi" });
+  } catch (err) {
+    console.error("Öğrenci eklenirken hata:", err);
+    res.status(500).json({ message: "Sunucu hatası" });
+  }
 });
 
+// Öğrenci güncelleme
 app.put("/api/students/:tc", (req, res) => {
-    const tc = req.params.tc;
-    const updatedData = req.body;
+  const tc = req.params.tc;
+  const updatedData = req.body;
 
-    try {
-        if (!fs.existsSync(studentsPath)) {
-            return res.status(404).json({ message: "Öğrenci verisi bulunamadı" });
-        }
-
-        const data = fs.readFileSync(studentsPath, "utf-8");
-        let students = JSON.parse(data);
-
-        const index = students.findIndex((s) => s.tc === tc);
-
-        if (index === -1) {
-            return res.status(404).json({ message: "Öğrenci bulunamadı" });
-        }
-
-        students[index] = { ...students[index], ...updatedData, tc };
-
-        fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
-
-        res.json({ message: "Öğrenci başarıyla güncellendi" });
-    } catch (err) {
-        console.error("Öğrenci güncellenirken hata:", err);
-        res.status(500).json({ message: "Sunucu hatası" });
+  try {
+    if (!fs.existsSync(studentsPath)) {
+      return res.status(404).json({ message: "Öğrenci verisi bulunamadı" });
     }
+
+    const data = fs.readFileSync(studentsPath, "utf-8");
+    let students = JSON.parse(data);
+
+    const index = students.findIndex((s) => s.tc === tc);
+
+    if (index === -1) {
+      return res.status(404).json({ message: "Öğrenci bulunamadı" });
+    }
+
+    students[index] = { ...students[index], ...updatedData, tc };
+
+    fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
+
+    // Log kaydet
+    addUserLog({
+      username: updatedData.username || "bilinmiyor",
+      action: "Öğrenci bilgisi güncellendi",
+      studentTc: tc,
+      timestamp: new Date().toISOString(),
+    });
+
+    res.json({ message: "Öğrenci başarıyla güncellendi" });
+  } catch (err) {
+    console.error("Öğrenci güncellenirken hata:", err);
+    res.status(500).json({ message: "Sunucu hatası" });
+  }
 });
 
 app.get("/api/logs", (req, res) => {
-    try {
-        if (!fs.existsSync(userLogsPath)) {
-            return res.json([]);
-        }
-        const data = fs.readFileSync(userLogsPath, "utf-8");
-        let logs = [];
-        try {
-            logs = JSON.parse(data);
-        } catch (e) {
-            console.error("userlogs.json parse hatası:", e);
-            return res.json([]);
-        }
-        res.json(logs);
-    } catch (err) {
-        console.error("Loglar alınırken hata:", err);
-        res.status(500).json({ success: false, message: "Loglar alınamadı" });
+  try {
+    if (!fs.existsSync(userLogsPath)) {
+      return res.json([]);
     }
+    const data = fs.readFileSync(userLogsPath, "utf-8");
+    let logs = [];
+    try {
+      logs = JSON.parse(data);
+    } catch (e) {
+      console.error("userlogs.json parse hatası:", e);
+      return res.json([]);
+    }
+    res.json(logs);
+  } catch (err) {
+    console.error("Loglar alınırken hata:", err);
+    res.status(500).json({ success: false, message: "Loglar alınamadı" });
+  }
 });
 
 app.listen(PORT, () => {
-    console.log(`✅ Server çalışıyor: http://localhost:${PORT}`);
+  console.log(`✅ Server çalışıyor: http://localhost:${PORT}`);
 });
 
 export default app;

@@ -38,13 +38,11 @@ export default function AddStudent() {
         soyad: "",
         konum: "",
         telefon: "",
-        tc: "",
         okulId: "",
         servisId: "",
         servisAdi: "",
         plaka: "",
         surucu: "",
-        veli: "",
         sabah: false,
         aksam: false,
         ogrenciId: generateStudentId(),
@@ -65,40 +63,27 @@ export default function AddStudent() {
     const okulRef = useRef(null);
     const servisRef = useRef(null);
 
-    // Okulları çekme (düzenlenmiş versiyon)
     useEffect(() => {
         const fetchOkullar = async () => {
             try {
                 const response = await fetch("http://localhost:5015/api/okullar");
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP hatası! Durum: ${response.status}`);
-                }
-                
+                if (!response.ok) throw new Error(`HTTP hata: ${response.status}`);
                 const data = await response.json();
-                
-                if (!Array.isArray(data)) {
-                    throw new Error("Beklenen veri formatı: dizi");
-                }
-                
+                if (!Array.isArray(data)) throw new Error("Beklenen veri dizisi değil");
                 const formattedData = data.map(item => ({
                     id: item.id || item._id,
-                    ad: item.ad || item.name || item.okulAdi
+                    ad: item.ad || item.name || item.okulAdi,
                 })).filter(item => item.id && item.ad);
-                
                 setOkullar(formattedData);
-                
             } catch (error) {
-                console.error("Okul verisi alınamadı:", error);
-                setError("Okullar yüklenemedi. Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.");
+                console.error("Okullar alınamadı:", error);
+                setError("Okullar yüklenemedi. Sayfayı yenileyin veya sonra tekrar deneyin.");
                 setOkullar([]);
             }
         };
-
         fetchOkullar();
     }, []);
 
-    // Servisleri çekme (düzenlenmiş versiyon)
     useEffect(() => {
         if (!form.okulId) {
             setServisler([]);
@@ -111,33 +96,24 @@ export default function AddStudent() {
             }));
             return;
         }
-
         const fetchServisler = async () => {
             try {
                 const response = await fetch(`http://localhost:5015/api/servisler?okulId=${form.okulId}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP hatası! Durum: ${response.status}`);
-                }
-                
+                if (!response.ok) throw new Error(`HTTP hata: ${response.status}`);
                 const data = await response.json();
-                
                 const formattedData = data.map(item => ({
                     id: item.id || item._id,
                     servisAdi: item.servisAdi || item.adi || item.name,
                     plaka: item.plaka || item.plakaNo,
-                    surucu: item.surucu || item.driver
+                    surucu: item.surucu || item.driver,
                 })).filter(item => item.id && item.servisAdi);
-                
                 setServisler(formattedData);
-                
             } catch (error) {
-                console.error("Servis verisi alınamadı:", error);
-                setError("Servisler yüklenemedi. Lütfen okul seçiminizi kontrol edin.");
+                console.error("Servisler alınamadı:", error);
+                setError("Servisler yüklenemedi. Okul seçimini kontrol edin.");
                 setServisler([]);
             }
         };
-
         fetchServisler();
     }, [form.okulId]);
 
@@ -170,17 +146,17 @@ export default function AddStudent() {
     const handleChange = (e) => {
         const { name, value, checked } = e.target;
         if (name === "sabah" || name === "aksam") {
-            setForm((prev) => ({ ...prev, [name]: checked }));
+            setForm(prev => ({ ...prev, [name]: checked }));
         } else if (name === "konum") {
             const cleaned = value.replace(/[^0-9.,\- ]/g, "");
-            setForm((prev) => ({ ...prev, konum: cleaned }));
+            setForm(prev => ({ ...prev, konum: cleaned }));
         } else {
-            setForm((prev) => ({ ...prev, [name]: value }));
+            setForm(prev => ({ ...prev, [name]: value }));
         }
     };
 
     const handleOkulSelect = (id) => {
-        setForm((prev) => ({
+        setForm(prev => ({
             ...prev,
             okulId: id,
             servisId: "",
@@ -194,9 +170,9 @@ export default function AddStudent() {
     };
 
     const handleServisSelect = (id) => {
-        const secilen = servisler.find((s) => s.id.toString() === id);
+        const secilen = servisler.find(s => s.id.toString() === id);
         if (secilen) {
-            setForm((prev) => ({
+            setForm(prev => ({
                 ...prev,
                 servisId: id,
                 servisAdi: secilen.servisAdi,
@@ -208,7 +184,6 @@ export default function AddStudent() {
         setServisSearch("");
     };
 
-    const isTcValid = (tc) => /^\d{11}$/.test(tc);
     const isValidKonum = (konum) =>
         /^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/.test(konum);
 
@@ -222,18 +197,13 @@ export default function AddStudent() {
             !form.soyad ||
             !form.konum ||
             !form.telefon ||
-            !form.tc ||
             !form.okulId ||
-            !form.servisId ||
-            !form.veli
+            !form.servisId
         ) {
             setError("Lütfen tüm alanları doldurun");
             return;
         }
-        if (!isTcValid(form.tc)) {
-            setError("TC 11 haneli rakam olmalıdır");
-            return;
-        }
+
         if (!isValidKonum(form.konum)) {
             setError("Konum geçerli formatta olmalıdır. Örnek: 37.866700, 32.510515");
             return;
@@ -284,13 +254,11 @@ export default function AddStudent() {
                     soyad: "",
                     konum: "",
                     telefon: "",
-                    tc: "",
                     okulId: "",
                     servisId: "",
                     servisAdi: "",
                     plaka: "",
                     surucu: "",
-                    veli: "",
                     sabah: false,
                     aksam: false,
                     ogrenciId: generateStudentId(),
@@ -325,7 +293,7 @@ export default function AddStudent() {
                 className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-xl mx-auto"
                 noValidate
             >
-                {["ad", "soyad", "konum", "telefon", "tc", "veli"].map((name) => (
+                {["ad", "soyad", "konum", "telefon"].map((name) => (
                     <div key={name} className="flex flex-col">
                         <label
                             htmlFor={name}
@@ -341,7 +309,6 @@ export default function AddStudent() {
                             value={form[name]}
                             onChange={handleChange}
                             disabled={loading}
-                            maxLength={name === "tc" ? 11 : undefined}
                             className="border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-400 focus:border-indigo-600 transition"
                             autoComplete="off"
                         />
