@@ -16,6 +16,7 @@ app.use(express.json());
 
 const okullarPath = path.join(__dirname, "okullar.json");
 const servislerPath = path.join(__dirname, "servisler.json");
+const userLogsPath = path.join(__dirname, "userlogs.json");  // userlogs.json dosya yolu
 
 // === LOGIN ENDPOINT ===
 app.post("/api/login", (req, res) => {
@@ -81,6 +82,27 @@ app.get("/api/servisler", (req, res) => {
     } catch (err) {
         console.error("Servisler alınırken hata:", err);
         res.status(500).json({ success: false, message: "Servisler alınamadı" });
+    }
+});
+
+// === LOGS ENDPOINT ===
+app.get("/api/logs", (req, res) => {
+    try {
+        if (!fs.existsSync(userLogsPath)) {
+            return res.json([]);
+        }
+        const data = fs.readFileSync(userLogsPath, "utf-8");
+        let logs = [];
+        try {
+            logs = JSON.parse(data);
+        } catch (e) {
+            console.error("userlogs.json parse hatası:", e);
+            return res.json([]);
+        }
+        res.json(logs);
+    } catch (err) {
+        console.error("Loglar alınırken hata:", err);
+        res.status(500).json({ success: false, message: "Loglar alınamadı" });
     }
 });
 
