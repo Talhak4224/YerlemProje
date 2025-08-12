@@ -106,6 +106,56 @@ app.get("/api/students", (req, res) => {
     }
 });
 
+// === STUDENT DETAIL ENDPOINT ===
+app.get("/api/students/:tc", (req, res) => {
+    try {
+        if (!fs.existsSync(studentsPath)) {
+            return res.status(404).json({ message: "Öğrenci verisi bulunamadı" });
+        }
+        const data = fs.readFileSync(studentsPath, "utf-8");
+        const students = JSON.parse(data);
+        const student = students.find(s => s.tc === req.params.tc);
+        if (!student) {
+            return res.status(404).json({ message: "Öğrenci bulunamadı" });
+        }
+        res.json(student);
+    } catch (err) {
+        console.error("Öğrenci detayı alınırken hata:", err);
+        res.status(500).json({ message: "Sunucu hatası" });
+    }
+});
+
+// === UPDATE STUDENT ENDPOINT (PUT) ===
+app.put("/api/students/:tc", (req, res) => {
+    const tc = req.params.tc;
+    const updatedData = req.body;
+
+    try {
+        if (!fs.existsSync(studentsPath)) {
+            return res.status(404).json({ message: "Öğrenci verisi bulunamadı" });
+        }
+
+        const data = fs.readFileSync(studentsPath, "utf-8");
+        let students = JSON.parse(data);
+
+        const index = students.findIndex((s) => s.tc === tc);
+
+        if (index === -1) {
+            return res.status(404).json({ message: "Öğrenci bulunamadı" });
+        }
+
+        // Güncelleme yapılıyor, TC değişmez
+        students[index] = { ...students[index], ...updatedData, tc };
+
+        fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
+
+        res.json({ message: "Öğrenci başarıyla güncellendi" });
+    } catch (err) {
+        console.error("Öğrenci güncellenirken hata:", err);
+        res.status(500).json({ message: "Sunucu hatası" });
+    }
+});
+
 // === USER LOGS ENDPOINT ===
 app.get("/api/logs", (req, res) => {
     try {
