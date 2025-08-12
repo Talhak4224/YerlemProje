@@ -1,4 +1,4 @@
-// src/App.jsx
+
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -6,9 +6,10 @@ import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import Assignments from "./pages/Assignments.jsx";
 import AddStudent from "./pages/AddStudent.jsx";
-import EditStudent from "./pages/EditStudent.jsx"; // 👈 bunu ekle
+import EditStudent from "./pages/EditStudent.jsx";
 import UserInfo from "./pages/UserInfo.jsx";
 import UserReport from "./pages/UserReport.jsx";
+
 
 export default function App() {
     return (
@@ -22,6 +23,8 @@ export default function App() {
                     <Route path="editstudent/:tc" element={<EditStudent />} />
                     <Route path="userinfo" element={<UserInfo />} />
                     <Route path="userreport" element={<UserReport />} />
+
+
                 </Route>
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>

@@ -1,146 +1,135 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+function parseAction(action) {
+    if (!action) return "";
+    const a = action.toLowerCase();
+    if (a.includes("eklendi")) return "Eklendi";
+    if (a.includes("düzenlendi")) return "Düzenlendi";
+    if (a.includes("silindi")) return "Silindi";
+    return "Bilinmiyor";
+}
+
+function parseDetails(action) {
+
+    const adSoyadMatch = action.match(/:\s*(.*?)\s*\(TC:/);
+    const tcMatch = action.match(/\(TC:\s*([\d]+)\)/);
+    const idMatch = action.match(/ID:\s*(\d+)/);
+    return {
+        adSoyad: adSoyadMatch ? adSoyadMatch[1] : "",
+        tc: tcMatch ? tcMatch[1] : "",
+        id: idMatch ? idMatch[1] : "",
+    };
+}
 
 export default function UserReport() {
     const [logs, setLogs] = useState([]);
-    const [search, setSearch] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filter, setFilter] = useState("Tümü");
 
     useEffect(() => {
-        fetch("http://localhost:5015/api/userlogs")
+        fetch("http://localhost:5015/api/logs")
             .then((res) => res.json())
             .then((data) => setLogs(data))
-            .catch(() => setLogs([]));
+            .catch((e) => console.error(e));
     }, []);
 
-    function parseLogAction(action) {
-        let işlem = "";
-        if (action.includes("eklendi")) işlem = "Ekledi";
-        else if (action.includes("silindi")) işlem = "Sildi";
-        else if (action.includes("güncellendi")) işlem = "Düzenledi";
-        else işlem = "İşlem";
 
-        const isimSoyadMatch = action.match(/Öğrenci (?:eklendi|silindi|güncellendi): ([^\(]+)/);
-        const isimSoyad = isimSoyadMatch ? isimSoyadMatch[1].trim() : "";
-
-        const tcMatch = action.match(/\(TC: ([^\)]+)\)/);
-        const tc = tcMatch ? tcMatch[1] : "";
-
-        return { işlem, isimSoyad, tc };
-    }
-
-    const filteredLogs = logs.filter((log) => {
-        const { işlem, isimSoyad, tc } = parseLogAction(log.action);
-        const searchLower = search.toLowerCase();
-
-        return (
-            log.username.toLowerCase().includes(searchLower) ||
-            isimSoyad.toLowerCase().includes(searchLower) ||
-            tc.toLowerCase().includes(searchLower) ||
-            işlem.toLowerCase().includes(searchLower)
-        );
-    });
-
-    const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
-    const displayedLogs = filteredLogs.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
-
-    const handlePageChange = (page) => {
-        if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page);
-        }
-    };
+    const filteredLogs = logs
+        .filter((log) => (filter === "Tümü" ? true : parseAction(log.action) === filter))
+        .filter((log) =>
+            log.addedBy.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
     return (
-        <div className="max-w-5xl mx-auto bg-white p-6 rounded shadow mt-10">
-            <h2 className="text-2xl font-bold mb-6 text-center">Kullanıcı Raporu</h2>
+        <main className="min-h-screen bg-gray-100 p-6 font-sans text-xs">
+            <h1 className="text-3xl font-bold mb-6 text-center text-gray-900">
+                Kullanıcı İşlem Raporları
+            </h1>
 
-            <input
-                type="text"
-                placeholder="Ara (İsim, Soyad, TC, Kullanıcı)..."
-                className="border p-2 rounded w-full mb-4"
-                value={search}
-                onChange={(e) => {
-                    setSearch(e.target.value);
-                    setCurrentPage(1);
-                }}
-            />
+            <div className="max-w-7xl mx-auto bg-white rounded-lg shadow p-4">
+                <div className="flex flex-wrap items-center gap-4 mb-4">
+                    <input
+                        type="text"
+                        placeholder="Kullanıcı Ara..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="flex-grow border border-gray-300 rounded px-3 py-2 focus:outline-indigo-500"
+                    />
 
-            {displayedLogs.length === 0 ? (
-                <p className="text-center italic text-gray-600">Rapor bulunamadı.</p>
-            ) : (
-                <table className="w-full border-collapse border border-gray-300 rounded shadow">
-                    <thead className="bg-blue-600 text-white">
-                        <tr>
-                            <th className="border border-gray-300 p-2">Kullanıcı</th>
-                            <th className="border border-gray-300 p-2">İşlem</th>
-                            <th className="border border-gray-300 p-2">Öğrenci Bilgisi</th>
-                            <th className="border border-gray-300 p-2">Zaman</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {displayedLogs.map((log, i) => {
-                            const { işlem, isimSoyad, tc } = parseLogAction(log.action);
-                            return (
-                                <tr key={i} className="hover:bg-blue-100">
-                                    <td className="border border-gray-300 p-2">{log.username}</td>
-                                    <td className="border border-gray-300 p-2">{işlem}</td>
-                                    <td className="border border-gray-300 p-2">
-                                        {isimSoyad} (TC: {tc})
-                                    </td>
-                                    <td className="border border-gray-300 p-2">
-                                        {new Date(log.timestamp).toLocaleString()}
+                    <select
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="border border-gray-300 rounded px-3 py-2"
+                    >
+                        <option value="Tümü">Tümü</option>
+                        <option value="Eklendi">Eklendi</option>
+                        <option value="Düzenlendi">Düzenlendi</option>
+                        <option value="Silindi">Silindi</option>
+                    </select>
+                </div>
+
+                <div className="overflow-auto max-h-[600px]">
+                    <table className="min-w-full table-auto border-collapse border border-gray-300 text-xs">
+                        <thead className="bg-indigo-600 text-white">
+                            <tr>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">İşlem Yapan Kullanıcı</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Tarih & Saat</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Adı</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Soyadı</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">TC</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Öğrenci ID</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Veli</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Servis Adı</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Plaka</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap text-center">Sabah</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap text-center">Akşam</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Konum</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredLogs.length === 0 ? (
+                                <tr>
+                                    <td colSpan="13" className="text-center p-3 text-gray-500 italic">
+                                        Kayıt bulunamadı.
                                     </td>
                                 </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            )}
-
-            {totalPages > 1 && (
-                <div className="flex justify-center mt-4 space-x-2 select-none">
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className={`px-3 py-1 rounded ${currentPage === 1
-                                ? "bg-gray-300 cursor-not-allowed"
-                                : "bg-blue-600 text-white hover:bg-blue-700"
-                            }`}
-                    >
-                        Önceki
-                    </button>
-
-                    {[...Array(totalPages)].map((_, idx) => {
-                        const page = idx + 1;
-                        return (
-                            <button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
-                                className={`px-3 py-1 rounded ${currentPage === page
-                                        ? "bg-blue-900 text-white"
-                                        : "bg-blue-600 text-white hover:bg-blue-700"
-                                    }`}
-                            >
-                                {page}
-                            </button>
-                        );
-                    })}
-
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className={`px-3 py-1 rounded ${currentPage === totalPages
-                                ? "bg-gray-300 cursor-not-allowed"
-                                : "bg-blue-600 text-white hover:bg-blue-700"
-                            }`}
-                    >
-                        Sonraki
-                    </button>
+                            ) : (
+                                filteredLogs.map((log, idx) => {
+                                    const details = parseDetails(log.action);
+                                    const dateStr = new Date(log.timestamp).toLocaleString("tr-TR", {
+                                        year: "numeric",
+                                        month: "2-digit",
+                                        day: "2-digit",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                        second: "2-digit",
+                                    });
+                                    const adSoyadSplit = details.adSoyad.split(" ");
+                                    return (
+                                        <tr key={idx} className="hover:bg-indigo-50 cursor-default">
+                                            <td className="border px-2 py-1 whitespace-nowrap">{log.addedBy}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{dateStr}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{adSoyadSplit[0] || ""}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{adSoyadSplit.slice(1).join(" ") || ""}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{details.tc}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{details.id}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{log.veli || "-"}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{log.servisAdi || "-"}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{log.plaka || "-"}</td>
+                                            <td className="border px-2 py-1 text-center">{log.sabah ? "✓" : ""}</td>
+                                            <td className="border px-2 py-1 text-center">{log.aksam ? "✓" : ""}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{log.konum || "-"}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{parseAction(log.action)}</td>
+                                        </tr>
+                                    );
+                                })
+                            )}
+                        </tbody>
+                    </table>
                 </div>
-            )}
-        </div>
+            </div>
+        </main>
     );
 }

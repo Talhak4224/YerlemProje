@@ -1,191 +1,325 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+function generateRandomOgrenciId() {
+    return Math.floor(0 + Math.random() * 10000).toString();
+}
+
+function matchesWithSpecialYFilter(dataStr, filterStr) {
+    if (!filterStr) return true;
+    for (let i = 0; i <= dataStr.length - filterStr.length; i++) {
+        let match = true;
+        for (let j = 0; j < filterStr.length; j++) {
+            const filterChar = filterStr[j];
+            const dataChar = dataStr[i + j];
+            if (filterChar === "") {
+                if (dataChar !== "") {
+                    match = false;
+                    break;
+                }
+            } else {
+                if (filterChar !== dataChar) {
+                    match = false;
+                    break;
+                }
+            }
+        }
+        if (match) return true;
+    }
+    return false;
+}
+
 export default function Assignments() {
     const [students, setStudents] = useState([]);
-    const [search, setSearch] = useState("");
+    const [okullar, setOkullar] = useState([]);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const navigate = useNavigate();
 
+    const [filterAd, setFilterAd] = useState("");
+    const [filterSoyad, setFilterSoyad] = useState("");
+    const [filterOkul, setFilterOkul] = useState("");
+    const [filterVeli, setFilterVeli] = useState("");
+    const [filterGuzergah, setFilterGuzergah] = useState("");
+    const [filterOgrenciId, setFilterOgrenciId] = useState("");
+
     useEffect(() => {
-        fetchStudents();
+
+        fetch("http://localhost:5015/api/okullar")
+            .then((res) => res.json())
+            .then((data) => setOkullar(data))
+            .catch(() => setError("Okullar yüklenemedi"));
     }, []);
 
-    async function fetchStudents() {
-        try {
-            const res = await fetch("http://localhost:5015/api/students");
-            const data = await res.json();
-            setStudents(data);
-        } catch (error) {
-            console.error("Öğrenci verisi alınamadı", error);
-        }
-    }
+    useEffect(() => {
+        if (okullar.length === 0) return;
 
+        setLoading(true);
+        fetch("http://localhost:5015/api/students")
+            .then((res) => res.json())
+            .then((data) => {
+                const withOkulAd = data.map((s) => {
+                    const okul = okullar.find((o) => o.id.toString() === s.okulId?.toString());
+                    return {
+                        ...s,
+                        ogrenciId: s.ogrenciId || generateRandomOgrenciId(),
+                        okulAdi: okul ? okul.ad : "Okul Bilgisi Yok",
+                        veli: s.veli || "Veli Bilgisi Yok",
+                        guzergah: s.guzergah || "Güzergah Yok",
+                        servisAdi: s.servisAdi || "Servis Yok",
+                        servisSaati: s.servisSaati || "",
+                    };
+                });
+                setStudents(withOkulAd);
+                setLoading(false);
+            })
+            .catch(() => {
+                setError("Öğrenciler yüklenemedi");
+                setLoading(false);
+            });
+    }, [okullar]);
 
-    const filteredStudents = students
-        .filter(
-            (s) =>
-                !(
-                    s.ad.toLowerCase() === "adı" &&
-                    s.soyad.toLowerCase() === "soyadı" &&
-                    s.konum.toLowerCase() === "konum" &&
-                    s.telefon.toLowerCase() === "telefon" &&
-                    s.tc.toLowerCase().includes("tc")
-                )
-        )
-        .filter(
-            (s) =>
-                s.ad.toLowerCase().includes(search.toLowerCase()) ||
-                s.soyad.toLowerCase().includes(search.toLowerCase()) ||
-                s.tc.includes(search)
-        );
+    const filteredStudents = students.filter((s) => {
+        const matchesAd = matchesWithSpecialYFilter(s.ad || "", filterAd);
+        const matchesSoyad = matchesWithSpecialYFilter(s.soyad || "", filterSoyad);
+        const matchesOkul = matchesWithSpecialYFilter(s.okulAdi || "", filterOkul);
+        const matchesVeli = matchesWithSpecialYFilter(s.veli || "", filterVeli);
+
+        const guzergahServisSaat = `[${s.guzergah} - ${s.servisAdi} ${s.servisSaati}]`;
+        const matchesGuzergah = matchesWithSpecialYFilter(guzergahServisSaat, filterGuzergah);
+
+        const matchesOgrenciId = matchesWithSpecialYFilter(s.ogrenciId || "", filterOgrenciId);
+
+        return matchesAd && matchesSoyad && matchesOkul && matchesVeli && matchesGuzergah && matchesOgrenciId;
+    });
 
     const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
-
     const displayedStudents = filteredStudents.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
 
     const handlePageChange = (page) => {
-        if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page);
-        }
+        if (page >= 1 && page <= totalPages) setCurrentPage(page);
     };
 
     return (
-        <div>
+        <>
+            <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeInUp {
+          animation: fadeInUp 0.4s ease forwards;
+        }
+        table {
+          font-size: 0.85rem;
+          table-layout: fixed;
+          width: 100%;
+          border-collapse: collapse;
+        }
+        th, td {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          padding: 8px 10px;
+          border: 1px solid #d1d5db;
+          vertical-align: middle;
+        }
+        .table-container {
+          width: 100%;
+          max-width: 1280px;
+          overflow-x: hidden;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+          background: white;
+          box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+        }
+      `}</style>
 
-            <div className="flex justify-between mb-6 items-center">
-                <input
-                    type="text"
-                    placeholder="Ara..."
-                    className="border p-2 rounded w-1/3"
-                    value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                        setCurrentPage(1);
-                    }}
-                />
-                <button
-                    onClick={() => navigate("/home/addstudent")}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-                >
-                    Öğrenci Ekle
-                </button>
-            </div>
-
-
-            <table className="w-full border-collapse border border-gray-300 rounded shadow">
-                <thead className="bg-blue-600 text-white">
-                    <tr>
-                        <th className="border border-gray-300 p-2">Adı</th>
-                        <th className="border border-gray-300 p-2">Soyadı</th>
-                        <th className="border border-gray-300 p-2">Konum</th>
-                        <th className="border border-gray-300 p-2">Telefon</th>
-                        <th className="border border-gray-300 p-2">TC</th>
-                        <th className="border border-gray-300 p-2">İşlemler</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {displayedStudents.length > 0 ? (
-                        displayedStudents.map((student) => (
-                            <tr key={student.tc} className="hover:bg-blue-100">
-                                <td className="border border-gray-300 p-2">{student.ad}</td>
-                                <td className="border border-gray-300 p-2">{student.soyad}</td>
-                                <td className="border border-gray-300 p-2">{student.konum}</td>
-                                <td className="border border-gray-300 p-2">{student.telefon}</td>
-                                <td className="border border-gray-300 p-2">{student.tc}</td>
-                                <td className="border border-gray-300 p-2 flex gap-2 justify-center">
-                                    <button
-                                        onClick={() => navigate(`/home/editstudent/${student.tc}`)}
-                                        className="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500"
-                                        title="Düzenle"
-                                    >
-                                        📝
-                                    </button>
-                                    <button
-                                        onClick={async () => {
-                                            if (
-                                                window.confirm(
-                                                    `${student.ad} ${student.soyad} silinsin mi?`
-                                                )
-                                            ) {
-                                                await fetch(
-                                                    `http://localhost:5015/api/students/${student.tc}`,
-                                                    {
-                                                        method: "DELETE",
-                                                        headers: { "Content-Type": "application/json" },
-                                                        body: JSON.stringify({
-                                                            deletedBy: JSON.parse(localStorage.getItem("user"))
-                                                                .username,
-                                                        }),
-                                                    }
-                                                );
-                                                fetchStudents();
-                                            }
-                                        }}
-                                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                                        title="Sil"
-                                    >
-                                        🗑️
-                                    </button>
-                                </td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="6" className="text-center p-4 italic text-gray-600">
-                                Kayıt bulunamadı
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-
-
-            {totalPages > 1 && (
-                <div className="flex justify-center mt-4 space-x-2 select-none">
+            <div className="bg-gray-50 min-h-screen font-sans flex flex-col items-center py-6 px-4 md:px-12 lg:px-24">
+                <div className="w-full max-w-[1280px] mb-6 flex justify-end">
                     <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className={`px-3 py-1 rounded ${currentPage === 1
-                            ? "bg-gray-300 cursor-not-allowed"
-                            : "bg-blue-600 text-white hover:bg-blue-700"
-                            }`}
+                        onClick={() => navigate("/home/addstudent")}
+                        className="bg-gray-400 text-gray-900 px-5 py-2 rounded-md shadow-sm hover:bg-gray-500 transition-transform transform hover:scale-105 active:scale-95 font-semibold tracking-wide flex items-center space-x-2 select-none"
+                        title="Yeni öğrenci ekle"
                     >
-                        Önceki
-                    </button>
-
-                    {[...Array(totalPages)].map((_, idx) => {
-                        const page = idx + 1;
-                        return (
-                            <button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
-                                className={`px-3 py-1 rounded ${currentPage === page
-                                    ? "bg-blue-900 text-white"
-                                    : "bg-blue-600 text-white hover:bg-blue-700"
-                                    }`}
-                            >
-                                {page}
-                            </button>
-                        );
-                    })}
-
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className={`px-3 py-1 rounded ${currentPage === totalPages
-                            ? "bg-gray-300 cursor-not-allowed"
-                            : "bg-blue-600 text-white hover:bg-blue-700"
-                            }`}
-                    >
-                        Sonraki
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span className="text-base">Öğrenci Ekle</span>
                     </button>
                 </div>
-            )}
-        </div>
+
+                <div className="table-container">
+                    <table>
+                        <thead>
+                            <tr className="bg-gray-200 text-gray-800 uppercase font-semibold tracking-wide">
+                                {["Adı", "Soyadı", "Okul Adı", "Öğrenci ID", "Veli", "Güzergah No", "İşlemler"].map(
+                                    (header, idx) => (
+                                        <th key={idx} title={header}>
+                                            {header}
+                                        </th>
+                                    )
+                                )}
+                            </tr>
+                            <tr className="bg-gray-100 text-gray-600">
+                                {[filterAd, filterSoyad, filterOkul, filterOgrenciId, filterVeli, filterGuzergah].map(
+                                    (filterValue, idx) => {
+                                        if (idx === 5) return <th key={idx}></th>;
+                                        return (
+                                            <th key={idx}>
+                                                <input
+                                                    className="w-full px-2 py-1 rounded-sm border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition"
+                                                    placeholder="Ara..."
+                                                    value={filterValue}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value;
+                                                        switch (idx) {
+                                                            case 0:
+                                                                setFilterAd(val);
+                                                                break;
+                                                            case 1:
+                                                                setFilterSoyad(val);
+                                                                break;
+                                                            case 2:
+                                                                setFilterOkul(val);
+                                                                break;
+                                                            case 3:
+                                                                setFilterOgrenciId(val);
+                                                                break;
+                                                            case 4:
+                                                                setFilterVeli(val);
+                                                                break;
+                                                            case 5:
+                                                                setFilterGuzergah(val);
+                                                                break;
+                                                        }
+                                                        setCurrentPage(1);
+                                                    }}
+                                                />
+                                            </th>
+                                        );
+                                    }
+                                )}
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {displayedStudents.length > 0 ? (
+                                displayedStudents.map((s, i) => (
+                                    <tr
+                                        key={s.ogrenciId}
+                                        className={`hover:shadow-lg hover:bg-gray-50 cursor-pointer animate-fadeInUp ${i % 2 === 0 ? "bg-white" : "bg-gray-50"
+                                            }`}
+                                    >
+                                        <td title={s.ad}>{s.ad}</td>
+                                        <td title={s.soyad}>{s.soyad}</td>
+                                        <td title={s.okulAdi} className="font-mono text-gray-600">
+                                            {s.okulAdi}
+                                        </td>
+                                        <td title={s.ogrenciId} className="font-mono text-gray-700">
+                                            {s.ogrenciId}
+                                        </td>
+                                        <td title={s.veli}>{s.veli}</td>
+                                        <td title={s.servisAdi || "Servis Yok"} className="text-center font-mono">
+                                            [{s.servisAdi || "Servis Yok"}]
+                                        </td>
+                                        <td className="text-center">
+                                            <button
+                                                onClick={() => navigate(`/home/editstudent/${s.tc}`)}
+                                                className="inline-flex items-center justify-center px-5 py-2 bg-gray-400 text-gray-900 rounded-sm shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-transform transform hover:scale-105 active:scale-95 select-none"
+                                                title={`Düzenle ${s.ad} ${s.soyad}`}
+                                                aria-label={`Düzenle ${s.ad} ${s.soyad}`}
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="h-5 w-5 mr-1"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    strokeWidth={2}
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M11 5h6M6 12l2 2m0 0l8-8 4 4-8 8-4-4z"
+                                                    />
+                                                </svg>
+                                                <span className="text-sm font-semibold">Düzenle</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr className="animate-fadeInUp">
+                                    <td colSpan="7" className="text-center py-16 text-gray-400 italic font-semibold">
+                                        Kayıt bulunamadı
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+                {totalPages > 1 && (
+                    <div className="flex flex-wrap justify-center mt-8 gap-4 select-none max-w-[1280px] w-full px-2">
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className={`px-6 py-2 rounded-md font-semibold tracking-wide transition ${currentPage === 1
+                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                : "bg-gray-600 text-gray-100 hover:bg-gray-700 transform hover:scale-105 active:scale-95"
+                                }`}
+                        >
+                            Önceki
+                        </button>
+                        {[...Array(totalPages)].map((_, i) => {
+                            const page = i + 1;
+                            return (
+                                <button
+                                    key={page}
+                                    onClick={() => handlePageChange(page)}
+                                    className={`px-6 py-2 rounded-md font-semibold tracking-wide transition ${currentPage === page
+                                        ? "bg-gray-700 text-gray-100 shadow-md"
+                                        : "bg-gray-200 text-gray-700 hover:bg-gray-400 hover:text-gray-100"
+                                        }`}
+                                    aria-current={currentPage === page ? "page" : undefined}
+                                >
+                                    {page}
+                                </button>
+                            );
+                        })}
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className={`px-6 py-2 rounded-md font-semibold tracking-wide transition ${currentPage === totalPages
+                                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                : "bg-gray-600 text-gray-100 hover:bg-gray-700 transform hover:scale-105 active:scale-95"
+                                }`}
+                        >
+                            Sonraki
+                        </button>
+                    </div>
+                )}
+            </div>
+        </>
     );
 }

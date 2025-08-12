@@ -75,6 +75,8 @@ export default function Home() {
                                 Kullanıcı Raporu
                             </Link>
                         </li>
+
+
                     </ul>
 
                     <footer className="mt-auto pt-10 text-sm text-gray-500 select-none tracking-wide">
