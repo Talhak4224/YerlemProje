@@ -60,18 +60,15 @@ export default function Assignments() {
     fetch("http://localhost:5015/api/students")
       .then((res) => res.json())
       .then((data) => {
-        const withOkulAd = data.map((s) => {
-          const okul = okullar.find((o) => o.id.toString() === s.okulId?.toString());
-          return {
-            ...s,
-            ogrenciId: s.ogrenciId || generateRandomOgrenciId(),
-            okulAdi: okul ? okul.ad : "Okul Bilgisi Yok",
-            veli: s.veli || "Veli Bilgisi Yok",
-            guzergah: s.guzergah || "Güzergah Yok",
-            servisAdi: s.servisAdi || "Servis Yok",
-            servisSaati: s.servisSaati || "",
-          };
-        });
+        const withOkulAd = data.map((s) => ({
+          ...s,
+          ogrenciId: s.ogrenciId || generateRandomOgrenciId(),
+          okulAdi: s.okulAdi || "Okul Bilgisi Yok", // sadece öğrenci kaydındaki okulAdi kullanılacak
+          veli: s.veli || "Veli Bilgisi Yok",
+          guzergah: s.guzergah || "Güzergah Yok",
+          servisAdi: s.servisAdi || "Servis Yok",
+          servisSaati: s.servisSaati || "",
+        }));
         setStudents(withOkulAd);
         setLoading(false);
       })
@@ -223,7 +220,7 @@ export default function Assignments() {
               {displayedStudents.length > 0 ? (
                 displayedStudents.map((s, i) => (
                   <tr
-                    key={s.ogrenciId}
+                    key={s.id}
                     className={`hover:shadow-lg hover:bg-gray-50 cursor-pointer animate-fadeInUp ${
                       i % 2 === 0 ? "bg-white" : "bg-gray-50"
                     }`}
@@ -242,7 +239,7 @@ export default function Assignments() {
                     </td>
                     <td className="text-center">
                       <button
-                        onClick={() => navigate(`/home/editstudent/${s.tc}`)}
+                        onClick={() => navigate(`/home/editstudent/${s.id}`)}
                         className="inline-flex items-center justify-center px-5 py-2 bg-gray-400 text-gray-900 rounded-sm shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-transform transform hover:scale-105 active:scale-95 select-none"
                         title={`Düzenle ${s.ad} ${s.soyad}`}
                         aria-label={`Düzenle ${s.ad} ${s.soyad}`}

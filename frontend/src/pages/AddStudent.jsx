@@ -221,53 +221,68 @@ export default function AddStudent() {
 
         setLoading(true);
 
-        setTimeout(async () => {
-            try {
-                const res = await fetch("http://localhost:5015/api/students", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        ...form,
-                        addedBy: user.username,
-                    }),
-                });
+        try {
+            // Mevcut öğrencileri çek
+            const studentsRes = await fetch("http://localhost:5015/api/students");
+            const studentsData = await studentsRes.json();
+            // En yüksek id'yi bul
+            const maxId = studentsData.length > 0
+                ? Math.max(...studentsData.map(s => Number(s.id) || 0))
+                : 0;
+            const newId = (maxId + 1).toString();
 
-                const data = await res.json();
+            setTimeout(async () => {
+                try {
+                    const res = await fetch("http://localhost:5015/api/students", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            ...form,
+                            id: newId, // yeni id burada ekleniyor
+                            addedBy: user.username,
+                        }),
+                    });
 
-                if (!res.ok) {
-                    setError(data.message || "Hata oluştu");
+                    const data = await res.json();
+
+                    if (!res.ok) {
+                        setError(data.message || "Hata oluştu");
+                        setLoading(false);
+                        return;
+                    }
+
+                    setSuccess(true);
                     setLoading(false);
-                    return;
+
+                    setTimeout(() => setSuccess(false), 3000);
+
+                    setTimeout(() => {
+                        navigate("/home");
+                    }, 2000);
+
+                    setForm({
+                        ad: "",
+                        soyad: "",
+                        konum: "",
+                        telefon: "",
+                        okulId: "",
+                        servisId: "",
+                        servisAdi: "",
+                        plaka: "",
+                        surucu: "",
+                        sabah: false,
+                        aksam: false,
+                        ogrenciId: generateStudentId(),
+                    });
+                } catch (err) {
+                    setError("Sunucuya bağlanılamadı");
+                    setLoading(false);
                 }
-
-                setSuccess(true);
-                setLoading(false);
-
-                setTimeout(() => setSuccess(false), 3000);
-
-                setTimeout(() => {
-                    navigate("/home");
-                }, 2000);
-
-                setForm({
-                    ad: "",
-                    soyad: "",
-                    konum: "",
-                    telefon: "",
-                    okulId: "",
-                    servisId: "",
-                    servisAdi: "",
-                    plaka: "",
-                    surucu: "",
-                    sabah: false,
-                    aksam: false,
-                    ogrenciId: generateStudentId(),
-                });
-            } catch (err) {
-                setError("Sunucuya bağlanılamadı");
-                setLoading(false);
-            }
-        }, 1500);
+            }, 1500);
+        } catch (err) {
+            setError("Sunucuya bağlanılamadı");
+            setLoading(false);
+        }
     };
 
     return (

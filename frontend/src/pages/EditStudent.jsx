@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditStudent() {
-  const { tc } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -10,7 +10,7 @@ export default function EditStudent() {
     soyad: "",
     konum: "",
     telefon: "",
-    tc: "",
+    id: "",
     okulAdi: "",
     servisAdi: "",
     veli: "",
@@ -26,8 +26,8 @@ export default function EditStudent() {
 
   // Öğrenci verisini çek
   useEffect(() => {
-    if (!tc) return;
-    fetch(`http://localhost:5015/api/students/${tc}`)
+    if (!id) return;
+    fetch(`http://localhost:5015/api/students/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Öğrenci bulunamadı");
         return res.json();
@@ -36,7 +36,7 @@ export default function EditStudent() {
         setForm(data);
       })
       .catch((err) => setError(err.message));
-  }, [tc]);
+  }, [id]);
 
   // Okul listesini getir
   useEffect(() => {
@@ -86,7 +86,7 @@ export default function EditStudent() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5015/api/students/${form.tc}`, {
+      const res = await fetch(`http://localhost:5015/api/students/${form.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -127,7 +127,7 @@ export default function EditStudent() {
         className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-xl mx-auto"
         noValidate
       >
-        {["ad", "soyad", "konum", "telefon", "tc", "veli"].map((name) => (
+        {["ad", "soyad", "konum", "telefon", "veli"].map((name) => (
           <div key={name} className="flex flex-col">
             <label
               htmlFor={name}
@@ -142,7 +142,7 @@ export default function EditStudent() {
               placeholder={`${capitalize(name)} girin`}
               value={form[name] || ""}
               onChange={handleChange}
-              disabled={loading || name === "tc"}
+              disabled={loading}
               className="border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-400 focus:border-indigo-600 transition"
               autoComplete="off"
             />
@@ -160,7 +160,6 @@ export default function EditStudent() {
             disabled={loading}
             className="border border-gray-300 rounded-lg px-4 py-3 w-full text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-400 focus:border-indigo-600 transition"
           >
-            <option value="">Okul seçin</option>
             {okullar.map((okul) => (
               <option key={okul.id} value={okul.ad}>
                 {okul.ad}

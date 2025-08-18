@@ -1,27 +1,5 @@
 [
   {
-    "tc": "12345678901",
-    "ad": "Ali",
-    "soyad": "Yılmaz",
-    "okulId": 1,
-    "ogrenciId": "1001",
-    "veli": "Mehmet Yılmaz",
-    "guzergah": "1",
-    "servisAdi": "Servis A",
-    "servisSaati": "08:00"
-  },
-  {
-    "tc": "10987654321",
-    "ad": "Ayşe",
-    "soyad": "Demir",
-    "okulId": 2,
-    "ogrenciId": "1002",
-    "veli": "Fatma Demir",
-    "guzergah": "2",
-    "servisAdi": "Servis B",
-    "servisSaati": "08:30"
-  },
-  {
     "ad": "veli",
     "soyad": "kaya",
     "konum": "37.95764240782575, 32.473047531493265",
@@ -54,6 +32,7 @@
     "sabah": true,
     "aksam": true,
     "ogrenciId": "5420",
-    "addedBy": "admin"
+    "addedBy": "admin",
+    "okulAdi": "SELÇUKLU SPOR OKULLARI"
   }
 ]
