@@ -1,5 +1,58 @@
 [
     {
-        
+        "id": 1,
+        "okulId": 1,
+        "servisAdi": "1-B - PZT-ÇAR-CUM 10.00",
+        "plaka": "34XYZ12",
+        "surucu": "Mehmet Yılmaz"
+    },
+    {
+        "id": 2,
+        "okulId": 1,
+        "servisAdi": "1-B - PZT-ÇAR-CUM 14.30",
+        "plaka": "34XYZ12",
+        "surucu": "Mehmet Yılmaz"
+    },
+    {
+        "id": 3,
+        "okulId": 1,
+        "servisAdi": "1-B - SAL-PER-CMT 10.00",
+        "plaka": "34XYZ12",
+        "surucu": "Mehmet Yılmaz"
+    },
+    {
+        "id": 4,
+        "okulId": 1,
+        "servisAdi": "1-B - SAL-PER-CMT 14.30",
+        "plaka": "34XYZ12",
+        "surucu": "Mehmet Yılmaz"
+    },
+    {
+        "id": 5,
+        "okulId": 2,
+        "servisAdi": "1-A - PZT-ÇAR-CUM 10.00",
+        "plaka": "34XYZ12",
+        "surucu": "Selami Yılmaz"
+    },
+    {
+        "id": 6,
+        "okulId": 2,
+        "servisAdi": "1-A - PZT-ÇAR-CUM 14.30",
+        "plaka": "34XYZ12",
+        "surucu": "Selami Yılmaz"
+    },
+    {
+        "id": 7,
+        "okulId": 2,
+        "servisAdi": "1-A - SAL-PER-CMT 10.00",
+        "plaka": "34XYZ12",
+        "surucu": "Selami Yılmaz"
+    },
+    {
+        "id": 8,
+        "okulId": 2,
+        "servisAdi": "1-A - SAL-PER-CMT 14.30",
+        "plaka": "34XYZ12",
+        "surucu": "Selami Yılmaz"
     }
 ]

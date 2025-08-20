@@ -50,5 +50,10 @@
     "action": "Öğrenci bilgisi güncellendi",
     "studentTc": "11111143434",
     "timestamp": "2025-08-12T11:25:16.857Z"
+  },
+  {
+    "username": "bilinmiyor",
+    "action": "Yeni öğrenci eklendi",
+    "timestamp": "2025-08-20T07:09:06.780Z"
   }
 ]

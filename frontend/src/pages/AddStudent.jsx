@@ -104,8 +104,8 @@ export default function AddStudent() {
                 const formattedData = data.map(item => ({
                     id: item.id || item._id,
                     servisAdi: item.servisAdi || item.adi || item.name,
-                    plaka: item.plaka || item.plakaNo,
-                    surucu: item.surucu || item.driver,
+                    plaka: item.plaka || item.plakaNo || "",
+                    surucu: item.surucu || item.driver || "",
                 })).filter(item => item.id && item.servisAdi);
                 setServisler(formattedData);
             } catch (error) {
@@ -139,8 +139,8 @@ export default function AddStudent() {
     const filteredServisler = servisler.filter(
         (servis) =>
             servis.servisAdi.toLowerCase().includes(servisSearch.toLowerCase()) ||
-            servis.plaka.toLowerCase().includes(servisSearch.toLowerCase()) ||
-            servis.surucu.toLowerCase().includes(servisSearch.toLowerCase())
+            (servis.plaka && servis.plaka.toLowerCase().includes(servisSearch.toLowerCase())) ||
+            (servis.surucu && servis.surucu.toLowerCase().includes(servisSearch.toLowerCase()))
     );
 
     const handleChange = (e) => {

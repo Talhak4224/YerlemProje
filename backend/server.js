@@ -14,11 +14,11 @@ app.use(cors());
 app.use(express.json());
 
 const okullarPath = path.join(__dirname, "okullar.json");
-const servislerPath = path.join(__dirname, "servisler.json");
 const userLogsPath = path.join(__dirname, "userlogs.json");
 const studentsPath = path.join(__dirname, "students.json");
+const sporOkuluServisPath = path.join(__dirname, "SporOkuluServis.json");
+const ilimYaymaServisPath = path.join(__dirname, "İlimYaymaServis.json");
 
-// Yardımcı fonksiyon: log kaydet
 function addUserLog(logEntry) {
   try {
     let logs = [];
@@ -33,7 +33,6 @@ function addUserLog(logEntry) {
   }
 }
 
-// === LOGIN ENDPOINT ===
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -74,17 +73,14 @@ app.get("/api/servisler", (req, res) => {
       return res.json([]);
     }
 
-    if (!fs.existsSync(servislerPath)) {
-      return res.json([]);
-    }
-
-    const data = fs.readFileSync(servislerPath, "utf-8");
     let servisler = [];
-    try {
-      servisler = JSON.parse(data);
-    } catch (parseErr) {
-      console.error("servisler.json parse hatası:", parseErr);
-      return res.json([]);
+    if (fs.existsSync(sporOkuluServisPath)) {
+      const data = fs.readFileSync(sporOkuluServisPath, "utf-8");
+      servisler = servisler.concat(JSON.parse(data));
+    }
+    if (fs.existsSync(ilimYaymaServisPath)) {
+      const data = fs.readFileSync(ilimYaymaServisPath, "utf-8");
+      servisler = servisler.concat(JSON.parse(data));
     }
 
     const filteredServisler = servisler.filter(
@@ -136,7 +132,6 @@ app.get("/api/students/:tc", (req, res) => {
   }
 });
 
-// Öğrenci ekleme
 app.post("/api/students", (req, res) => {
   const newStudent = req.body;
 
@@ -154,7 +149,6 @@ app.post("/api/students", (req, res) => {
     students.push(newStudent);
     fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
 
-    // Log kaydet
     addUserLog({
       username: newStudent.username || "bilinmiyor",
       action: "Yeni öğrenci eklendi",
@@ -169,7 +163,6 @@ app.post("/api/students", (req, res) => {
   }
 });
 
-// Öğrenci güncelleme
 app.put("/api/students/:tc", (req, res) => {
   const tc = req.params.tc;
   const updatedData = req.body;
@@ -192,7 +185,6 @@ app.put("/api/students/:tc", (req, res) => {
 
     fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
 
-    // Log kaydet
     addUserLog({
       username: updatedData.username || "bilinmiyor",
       action: "Öğrenci bilgisi güncellendi",

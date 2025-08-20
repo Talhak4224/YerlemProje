@@ -22,12 +22,11 @@ export default function EditStudent() {
 
   const [okullar, setOkullar] = useState([]);
   const [servisler, setServisler] = useState([]);
-  const [servisAra, setServisAra] = useState([]);
+  const [servisAra, setServisAra] = useState("");
 
-  // Öğrenci verisini çek
   useEffect(() => {
     if (!id) return;
-    fetch(`http://localhost:5015/api/students/${id}`)
+    fetch(`http://localhost:5015/api/studentbyid/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Öğrenci bulunamadı");
         return res.json();
@@ -38,7 +37,6 @@ export default function EditStudent() {
       .catch((err) => setError(err.message));
   }, [id]);
 
-  // Okul listesini getir
   useEffect(() => {
     fetch("http://localhost:5015/api/okullar")
       .then((res) => res.json())
@@ -46,13 +44,11 @@ export default function EditStudent() {
       .catch(() => setError("Okullar yüklenemedi"));
   }, []);
 
-  // Servisleri getir, okul seçimine göre filtrele
   useEffect(() => {
     if (!form.okulAdi) {
       setServisler([]);
       return;
     }
-    // Okul adından okulId'yi bul
     const okul = okullar.find((o) => o.ad === form.okulAdi);
     if (!okul) {
       setServisler([]);
@@ -65,10 +61,9 @@ export default function EditStudent() {
       .catch(() => setError("Servisler yüklenemedi"));
   }, [form.okulAdi, okullar]);
 
-  // Servis arama için filtre
   const filtrelenmisServisler = servisler
     .filter((s) =>
-      s.servisAdi.toLowerCase().includes(servisAra.toLowerCase())
+      s.servisAdi && s.servisAdi.toLowerCase().includes(servisAra.toLowerCase())
     )
     .map((s) => s.servisAdi);
 
@@ -76,7 +71,6 @@ export default function EditStudent() {
     setForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-      // Servis seçimini okul değiştiğinde sıfırla
       ...(e.target.name === "okulAdi" ? { servisAdi: "" } : {}),
     }));
   };
@@ -86,7 +80,7 @@ export default function EditStudent() {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5015/api/students/${form.id}`, {
+      const res = await fetch(`http://localhost:5015/api/studentbyid/${form.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -107,7 +101,6 @@ export default function EditStudent() {
     }
   };
 
-  // Büyük harfe çevirme fonksiyonu
   const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
   return (

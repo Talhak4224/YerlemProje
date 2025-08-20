@@ -60,8 +60,9 @@ export default function Assignments() {
     fetch("http://localhost:5015/api/students")
       .then((res) => res.json())
       .then((data) => {
-        const withOkulAd = data.map((s) => ({
+        const withOkulAd = data.map((s, idx) => ({
           ...s,
+          id: s.id || s.ogrenciId || (s.tc ? s.tc : idx + 1),
           ogrenciId: s.ogrenciId || generateRandomOgrenciId(),
           okulAdi: s.okulAdi || "Okul Bilgisi Yok", // sadece öğrenci kaydındaki okulAdi kullanılacak
           veli: s.veli || "Veli Bilgisi Yok",
