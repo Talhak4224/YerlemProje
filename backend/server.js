@@ -36,10 +36,18 @@ function addUserLog(logEntry) {
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
 
-  if (username === "admin" && password === "1234") {
+  const users = [
+    { username: "admin", password: "1234", role: "admin" },
+    { username: "cemal", password: "1453", role: "stajyer" },
+    { username: "talha", password: "3322", role: "stajyer" }
+  ];
+
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (user) {
     return res.json({
       success: true,
-      user: { username: "admin", role: "admin" }
+      user: { username: user.username, role: user.role }
     });
   }
 
@@ -142,7 +150,6 @@ app.post("/api/students", (req, res) => {
       students = JSON.parse(data);
     }
 
-    // TC yerine id veya ogrenciId ile kontrol et
     if (students.find((s) => s.id === newStudent.id || s.ogrenciId === newStudent.ogrenciId)) {
       return res.status(400).json({ message: "Bu öğrenci ID ile kayıt zaten var" });
     }
@@ -151,7 +158,8 @@ app.post("/api/students", (req, res) => {
     fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
 
     addUserLog({
-      username: newStudent.username || "bilinmiyor",
+      username: newStudent.addedBy || newStudent.username || "bilinmiyor",
+      addedBy: newStudent.addedBy || newStudent.username || "bilinmiyor",
       action: "Yeni öğrenci eklendi",
       studentId: newStudent.id || newStudent.ogrenciId,
       timestamp: new Date().toISOString(),

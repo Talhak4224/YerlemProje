@@ -33,7 +33,6 @@ export default function UserReport() {
         )
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-    // Öğrenci bilgilerini log.studentId ile bul
     function getStudentInfo(studentId) {
         if (!studentId) return {};
         const stu = students.find(
