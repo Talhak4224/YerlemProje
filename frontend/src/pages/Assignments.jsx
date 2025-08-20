@@ -64,7 +64,7 @@ export default function Assignments() {
           ...s,
           id: s.id || s.ogrenciId || (s.tc ? s.tc : idx + 1),
           ogrenciId: s.ogrenciId || generateRandomOgrenciId(),
-          okulAdi: s.okulAdi || "Okul Bilgisi Yok", // sadece öğrenci kaydındaki okulAdi kullanılacak
+          okulAdi: s.okulAdi || "Okul Bilgisi Yok",
           veli: s.veli || "Veli Bilgisi Yok",
           guzergah: s.guzergah || "Güzergah Yok",
           servisAdi: s.servisAdi || "Servis Yok",
@@ -143,8 +143,8 @@ export default function Assignments() {
         }
       `}</style>
 
-      <div className="bg-gray-50 min-h-screen font-sans flex flex-col items-center py-6 px-4 md:px-12 lg:px-24">
-        <div className="w-full max-w-[1280px] mb-6 flex justify-end">
+      <div className="bg-gray-50 min-h-screen font-sans flex flex-col items-center py-6 px-2 md:px-8 lg:px-12">
+        <div className="w-full max-w-[1800px] mb-6 flex justify-end">
           <button
             onClick={() => navigate("/home/addstudent")}
             className="bg-gray-400 text-gray-900 px-5 py-2 rounded-md shadow-sm hover:bg-gray-500 transition-transform transform hover:scale-105 active:scale-95 font-semibold tracking-wide flex items-center space-x-2 select-none"
@@ -164,11 +164,19 @@ export default function Assignments() {
           </button>
         </div>
 
-        <div className="table-container">
-          <table>
+        <div className="table-container" style={{ maxWidth: "1800px", minWidth: "900px", overflowX: "auto" }}>
+          <table style={{ tableLayout: "fixed", width: "100%" }}>
+            <colgroup>
+              <col style={{ width:  "8%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "15%" }} />
+              <col style={{ width: "18%" }} />
+              <col style={{ width: "27%" }} />
+              <col style={{ width: "15%" }} />
+            </colgroup>
             <thead>
               <tr className="bg-gray-200 text-gray-800 uppercase font-semibold tracking-wide">
-                {["Adı", "Soyadı", "Okul Adı", "Öğrenci ID", "Veli", "Güzergah", "İşlem"].map(
+                {["ID", "Adı", "Soyadı", "Okul Adı", "Güzergah", ""].map(
                   (header, idx) => (
                     <th key={idx} title={header}>
                       {header}
@@ -177,7 +185,18 @@ export default function Assignments() {
                 )}
               </tr>
               <tr className="bg-gray-100 text-gray-600">
-                {[filterAd, filterSoyad, filterOkul, filterOgrenciId, filterVeli, filterGuzergah].map(
+                <th>
+                  <input
+                    className="w-full px-2 py-1 rounded-sm border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition"
+                    placeholder="Ara..."
+                    value={filterOgrenciId}
+                    onChange={e => {
+                      setFilterOgrenciId(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                  />
+                </th>
+                {[filterAd, filterSoyad, filterOkul, filterGuzergah].map(
                   (filterValue, idx) => (
                     <th key={idx}>
                       <input
@@ -197,12 +216,6 @@ export default function Assignments() {
                               setFilterOkul(val);
                               break;
                             case 3:
-                              setFilterOgrenciId(val);
-                              break;
-                            case 4:
-                              setFilterVeli(val);
-                              break;
-                            case 5:
                               setFilterGuzergah(val);
                               break;
                             default:
@@ -219,50 +232,61 @@ export default function Assignments() {
             </thead>
             <tbody>
               {displayedStudents.length > 0 ? (
-                displayedStudents.map((s, i) => (
-                  <tr
-                    key={s.id}
-                    className={`hover:shadow-lg hover:bg-gray-50 cursor-pointer animate-fadeInUp ${
-                      i % 2 === 0 ? "bg-white" : "bg-gray-50"
-                    }`}
-                  >
-                    <td title={s.ad}>{s.ad}</td>
-                    <td title={s.soyad}>{s.soyad}</td>
-                    <td title={s.okulAdi} className="font-mono text-gray-600">
-                      {s.okulAdi}
-                    </td>
-                    <td title={s.ogrenciId} className="font-mono text-gray-700">
-                      {s.ogrenciId}
-                    </td>
-                    <td title={s.veli}>{s.veli}</td>
-                    <td title={`[${s.guzergah} - ${s.servisAdi} ${s.servisSaati}]`} className="text-center font-mono">
-                      [{s.guzergah} - {s.servisAdi} {s.servisSaati}]
-                    </td>
-                    <td className="text-center">
-                      <button
-                        onClick={() => navigate(`/home/editstudent/${s.id}`)}
-                        className="inline-flex items-center justify-center px-5 py-2 bg-gray-400 text-gray-900 rounded-sm shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-transform transform hover:scale-105 active:scale-95 select-none"
-                        title={`Düzenle ${s.ad} ${s.soyad}`}
-                        aria-label={`Düzenle ${s.ad} ${s.soyad}`}
+                displayedStudents.map((s, i) => {
+                  const servisDisplay = s.servisAdi && s.servisAdi.trim() !== "" ? s.servisAdi : "Servis Yok";
+                  return (
+                    <tr
+                      key={s.id}
+                      className={`hover:shadow-lg hover:bg-gray-50 cursor-pointer animate-fadeInUp ${
+                        i % 2 === 0 ? "bg-white" : "bg-gray-50"
+                      }`}
+                    >
+                      <td title={s.ogrenciId} className="font-mono text-gray-700">
+                        {s.ogrenciId}
+                      </td>
+                      <td title={s.ad}>{s.ad}</td>
+                      <td title={s.soyad}>{s.soyad}</td>
+                      <td title={s.okulAdi} className="font-mono text-gray-600">
+                        {s.okulAdi}
+                      </td>
+                      <td
+                        title={servisDisplay}
+                        className="text-center font-mono"
+                        style={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "100%",
+                        }}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-1"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
+                        {servisDisplay}
+                      </td>
+                      <td className="text-center">
+                        <button
+                          onClick={() => navigate(`/home/editstudent/${s.id}`)}
+                          className="inline-flex items-center justify-center px-5 py-2 bg-gray-400 text-gray-900 rounded-sm shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-transform transform hover:scale-105 active:scale-95 select-none"
+                          title={`Düzenle ${s.ad} ${s.soyad}`}
+                          aria-label={`Düzenle ${s.ad} ${s.soyad}`}
                         >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M11 5h6M6 12l2 2m0 0l8-8 4 4-8 8-4-4z" />
-                        </svg>
-                        <span className="text-sm font-semibold">Düzenle</span>
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M11 5h6M6 12l2 2m0 0l8-8 4 4-8 8-4-4z" />
+                          </svg>
+                          <span className="text-sm font-semibold">Düzenle</span>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
               ) : (
                 <tr className="animate-fadeInUp">
-                  <td colSpan="7" className="text-center py-16 text-gray-400 italic font-semibold">
+                  <td colSpan="6" className="text-center py-16 text-gray-400 italic font-semibold">
                     Kayıt bulunamadı
                   </td>
                 </tr>

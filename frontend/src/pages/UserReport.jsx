@@ -9,20 +9,9 @@ function parseAction(action) {
     return "Bilinmiyor";
 }
 
-function parseDetails(action) {
-
-    const adSoyadMatch = action.match(/:\s*(.*?)\s*\(TC:/);
-    const tcMatch = action.match(/\(TC:\s*([\d]+)\)/);
-    const idMatch = action.match(/ID:\s*(\d+)/);
-    return {
-        adSoyad: adSoyadMatch ? adSoyadMatch[1] : "",
-        tc: tcMatch ? tcMatch[1] : "",
-        id: idMatch ? idMatch[1] : "",
-    };
-}
-
 export default function UserReport() {
     const [logs, setLogs] = useState([]);
+    const [students, setStudents] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [filter, setFilter] = useState("Tümü");
 
@@ -31,15 +20,27 @@ export default function UserReport() {
             .then((res) => res.json())
             .then((data) => setLogs(data))
             .catch((e) => console.error(e));
+        fetch("http://localhost:5015/api/students")
+            .then((res) => res.json())
+            .then((data) => setStudents(data))
+            .catch((e) => console.error(e));
     }, []);
-
 
     const filteredLogs = logs
         .filter((log) => (filter === "Tümü" ? true : parseAction(log.action) === filter))
         .filter((log) =>
-            log.addedBy.toLowerCase().includes(searchTerm.toLowerCase())
+            (log.addedBy || "").toLowerCase().includes(searchTerm.toLowerCase())
         )
         .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    // Öğrenci bilgilerini log.studentId ile bul
+    function getStudentInfo(studentId) {
+        if (!studentId) return {};
+        const stu = students.find(
+            s => String(s.id) === String(studentId) || String(s.ogrenciId) === String(studentId)
+        );
+        return stu || {};
+    }
 
     return (
         <main className="min-h-screen bg-gray-100 p-6 font-sans text-xs">
@@ -77,50 +78,43 @@ export default function UserReport() {
                                 <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Tarih & Saat</th>
                                 <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Adı</th>
                                 <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Soyadı</th>
-                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">TC</th>
                                 <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Öğrenci ID</th>
-                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Veli</th>
-                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Servis Adı</th>
-                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Plaka</th>
+                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Seans</th> {/* Güncellendi */}
                                 <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap text-center">Sabah</th>
                                 <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap text-center">Akşam</th>
-                                <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">Konum</th>
                                 <th className="border border-indigo-500 px-2 py-1 whitespace-nowrap">İşlem</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredLogs.length === 0 ? (
                                 <tr>
-                                    <td colSpan="13" className="text-center p-3 text-gray-500 italic">
+                                    <td colSpan="9" className="text-center p-3 text-gray-500 italic">
                                         Kayıt bulunamadı.
                                     </td>
                                 </tr>
                             ) : (
                                 filteredLogs.map((log, idx) => {
-                                    const details = parseDetails(log.action);
-                                    const dateStr = new Date(log.timestamp).toLocaleString("tr-TR", {
-                                        year: "numeric",
-                                        month: "2-digit",
-                                        day: "2-digit",
-                                        hour: "2-digit",
-                                        minute: "2-digit",
-                                        second: "2-digit",
-                                    });
-                                    const adSoyadSplit = details.adSoyad.split(" ");
+                                    const dateStr = log.timestamp
+                                        ? new Date(log.timestamp).toLocaleString("tr-TR", {
+                                            year: "numeric",
+                                            month: "2-digit",
+                                            day: "2-digit",
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                            second: "2-digit",
+                                        })
+                                        : "-";
+                                    const stu = getStudentInfo(log.studentId);
                                     return (
                                         <tr key={idx} className="hover:bg-indigo-50 cursor-default">
-                                            <td className="border px-2 py-1 whitespace-nowrap">{log.addedBy}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{log.addedBy || log.username || "-"}</td>
                                             <td className="border px-2 py-1 whitespace-nowrap">{dateStr}</td>
-                                            <td className="border px-2 py-1 whitespace-nowrap">{adSoyadSplit[0] || ""}</td>
-                                            <td className="border px-2 py-1 whitespace-nowrap">{adSoyadSplit.slice(1).join(" ") || ""}</td>
-                                            <td className="border px-2 py-1 whitespace-nowrap">{details.tc}</td>
-                                            <td className="border px-2 py-1 whitespace-nowrap">{details.id}</td>
-                                            <td className="border px-2 py-1 whitespace-nowrap">{log.veli || "-"}</td>
-                                            <td className="border px-2 py-1 whitespace-nowrap">{log.servisAdi || "-"}</td>
-                                            <td className="border px-2 py-1 whitespace-nowrap">{log.plaka || "-"}</td>
-                                            <td className="border px-2 py-1 text-center">{log.sabah ? "✓" : ""}</td>
-                                            <td className="border px-2 py-1 text-center">{log.aksam ? "✓" : ""}</td>
-                                            <td className="border px-2 py-1 whitespace-nowrap">{log.konum || "-"}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{stu.ad || "-"}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{stu.soyad || "-"}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{stu.ogrenciId || log.studentId || "-"}</td>
+                                            <td className="border px-2 py-1 whitespace-nowrap">{stu.servisAdi || log.servisAdi || "-"}</td>
+                                            <td className="border px-2 py-1 text-center">{stu.sabah || log.sabah ? "✓" : ""}</td>
+                                            <td className="border px-2 py-1 text-center">{stu.aksam || log.aksam ? "✓" : ""}</td>
                                             <td className="border px-2 py-1 whitespace-nowrap">{parseAction(log.action)}</td>
                                         </tr>
                                     );

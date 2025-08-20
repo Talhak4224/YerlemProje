@@ -142,8 +142,9 @@ app.post("/api/students", (req, res) => {
       students = JSON.parse(data);
     }
 
-    if (students.find((s) => s.tc === newStudent.tc)) {
-      return res.status(400).json({ message: "Bu TC ile kayıt zaten var" });
+    // TC yerine id veya ogrenciId ile kontrol et
+    if (students.find((s) => s.id === newStudent.id || s.ogrenciId === newStudent.ogrenciId)) {
+      return res.status(400).json({ message: "Bu öğrenci ID ile kayıt zaten var" });
     }
 
     students.push(newStudent);
@@ -152,7 +153,7 @@ app.post("/api/students", (req, res) => {
     addUserLog({
       username: newStudent.username || "bilinmiyor",
       action: "Yeni öğrenci eklendi",
-      studentTc: newStudent.tc,
+      studentId: newStudent.id || newStudent.ogrenciId,
       timestamp: new Date().toISOString(),
     });
 
@@ -189,6 +190,64 @@ app.put("/api/students/:tc", (req, res) => {
       username: updatedData.username || "bilinmiyor",
       action: "Öğrenci bilgisi güncellendi",
       studentTc: tc,
+      timestamp: new Date().toISOString(),
+    });
+
+    res.json({ message: "Öğrenci başarıyla güncellendi" });
+  } catch (err) {
+    console.error("Öğrenci güncellenirken hata:", err);
+    res.status(500).json({ message: "Sunucu hatası" });
+  }
+});
+
+app.get("/api/studentbyid/:id", (req, res) => {
+  try {
+    if (!fs.existsSync(studentsPath)) {
+      return res.status(404).json({ message: "Öğrenci verisi bulunamadı" });
+    }
+    const data = fs.readFileSync(studentsPath, "utf-8");
+    const students = JSON.parse(data);
+    const student = students.find(
+      s => String(s.id) === req.params.id || String(s.ogrenciId) === req.params.id
+    );
+    if (!student) {
+      return res.status(404).json({ message: "Öğrenci bulunamadı" });
+    }
+    res.json(student);
+  } catch (err) {
+    console.error("Öğrenci detayı alınırken hata:", err);
+    res.status(500).json({ message: "Sunucu hatası" });
+  }
+});
+
+app.put("/api/studentbyid/:id", (req, res) => {
+  const id = req.params.id;
+  const updatedData = req.body;
+
+  try {
+    if (!fs.existsSync(studentsPath)) {
+      return res.status(404).json({ message: "Öğrenci verisi bulunamadı" });
+    }
+
+    const data = fs.readFileSync(studentsPath, "utf-8");
+    let students = JSON.parse(data);
+
+    const index = students.findIndex(
+      (s) => String(s.id) === id || String(s.ogrenciId) === id
+    );
+
+    if (index === -1) {
+      return res.status(404).json({ message: "Öğrenci bulunamadı" });
+    }
+
+    students[index] = { ...students[index], ...updatedData, id: students[index].id };
+
+    fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
+
+    addUserLog({
+      username: updatedData.username || "bilinmiyor",
+      action: "Öğrenci bilgisi güncellendi (id ile)",
+      studentId: id,
       timestamp: new Date().toISOString(),
     });
 

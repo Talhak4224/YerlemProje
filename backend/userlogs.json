@@ -1,59 +1,8 @@
 [
   {
-    "addedBy": "admin",
-    "timestamp": "2025-08-12T10:20:30.000Z",
-    "action": "Kullanıcı eklendi: Ahmet Yılmaz (TC:12345678901) ID: 1001",
-    "veli": "Mehmet Yılmaz",
-    "servisAdi": "Servis A",
-    "plaka": "34ABC123",
-    "sabah": true,
-    "aksam": false,
-    "konum": "Okul önü"
-  },
-  {
-    "addedBy": "cemal",
-    "timestamp": "2025-08-11T15:45:00.000Z",
-    "action": "Kullanıcı silindi: Ayşe Demir (TC:98765432109) ID: 1002",
-    "veli": "Fatma Demir",
-    "servisAdi": "Servis B",
-    "plaka": "35XYZ456",
-    "sabah": false,
-    "aksam": true,
-    "konum": "Ev önü"
-  },
-  {
-    "username": "bilinmiyor",
-    "action": "Öğrenci bilgisi güncellendi",
-    "studentTc": "11111111111",
-    "timestamp": "2025-08-12T11:15:50.455Z"
-  },
-  {
-    "username": "bilinmiyor",
-    "action": "Öğrenci bilgisi güncellendi",
-    "studentTc": "12345678901",
-    "timestamp": "2025-08-12T11:15:56.117Z"
-  },
-  {
-    "username": "bilinmiyor",
-    "action": "Öğrenci bilgisi güncellendi",
-    "studentTc": "11111111111",
-    "timestamp": "2025-08-12T11:16:03.048Z"
-  },
-  {
-    "username": "bilinmiyor",
-    "action": "Öğrenci bilgisi güncellendi",
-    "studentTc": "12345678901",
-    "timestamp": "2025-08-12T11:24:30.881Z"
-  },
-  {
-    "username": "bilinmiyor",
-    "action": "Öğrenci bilgisi güncellendi",
-    "studentTc": "11111143434",
-    "timestamp": "2025-08-12T11:25:16.857Z"
-  },
-  {
     "username": "bilinmiyor",
     "action": "Yeni öğrenci eklendi",
-    "timestamp": "2025-08-20T07:09:06.780Z"
+    "studentId": "1",
+    "timestamp": "2025-08-20T09:39:38.690Z"
   }
 ]

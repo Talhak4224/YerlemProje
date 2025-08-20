@@ -222,14 +222,18 @@ export default function AddStudent() {
         setLoading(true);
 
         try {
-            // Mevcut öğrencileri çek
             const studentsRes = await fetch("http://localhost:5015/api/students");
             const studentsData = await studentsRes.json();
-            // En yüksek id'yi bul
             const maxId = studentsData.length > 0
-                ? Math.max(...studentsData.map(s => Number(s.id) || 0))
+                ? Math.max(
+                    ...studentsData
+                        .map(s => Number(s.ogrenciId))
+                        .filter(n => !isNaN(n))
+                )
                 : 0;
             const newId = (maxId + 1).toString();
+
+            const okul = okullar.find((o) => o.id.toString() === form.okulId);
 
             setTimeout(async () => {
                 try {
@@ -238,8 +242,10 @@ export default function AddStudent() {
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             ...form,
-                            id: newId, // yeni id burada ekleniyor
+                            id: newId,
+                            ogrenciId: newId,
                             addedBy: user.username,
+                            okulAdi: okul ? okul.ad : "",
                         }),
                     });
 
