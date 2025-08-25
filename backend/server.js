@@ -1,3 +1,4 @@
+// ...existing code...
 import express from "express";
 import fs from "fs";
 import path from "path";
@@ -84,18 +85,13 @@ app.get("/api/servisler", (req, res) => {
     let servisler = [];
     if (fs.existsSync(sporOkuluServisPath)) {
       const data = fs.readFileSync(sporOkuluServisPath, "utf-8");
-      servisler = servisler.concat(JSON.parse(data));
+      servisler = servisler.concat(JSON.parse(data).filter(s => Number(s.okulId) === okulId));
     }
-    if (fs.existsSync(ilimYaymaServisPath)) {
+    if (okulId === 2 && fs.existsSync(ilimYaymaServisPath)) {
       const data = fs.readFileSync(ilimYaymaServisPath, "utf-8");
-      servisler = servisler.concat(JSON.parse(data));
+      servisler = servisler.concat(JSON.parse(data).filter(s => Number(s.okulId) === 2));
     }
-
-    const filteredServisler = servisler.filter(
-      (s) => Number(s.okulId) === okulId
-    );
-
-    res.json(filteredServisler);
+    res.json(servisler);
   } catch (err) {
     console.error("Servisler alınırken hata:", err);
     res.status(500).json({ success: false, message: "Servisler alınamadı" });
@@ -161,6 +157,7 @@ app.post("/api/students", (req, res) => {
       username: newStudent.addedBy || newStudent.username || "bilinmiyor",
       addedBy: newStudent.addedBy || newStudent.username || "bilinmiyor",
       action: "Yeni öğrenci eklendi",
+      actionType: "Eklendi",
       studentId: newStudent.id || newStudent.ogrenciId,
       timestamp: new Date().toISOString(),
     });
@@ -195,8 +192,10 @@ app.put("/api/students/:tc", (req, res) => {
     fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
 
     addUserLog({
-      username: updatedData.username || "bilinmiyor",
+      username: updatedData.addedBy || updatedData.username || "bilinmiyor",
+      addedBy: updatedData.addedBy || updatedData.username || "bilinmiyor",
       action: "Öğrenci bilgisi güncellendi",
+      actionType: "Düzenlendi",
       studentTc: tc,
       timestamp: new Date().toISOString(),
     });
@@ -253,8 +252,10 @@ app.put("/api/studentbyid/:id", (req, res) => {
     fs.writeFileSync(studentsPath, JSON.stringify(students, null, 2), "utf-8");
 
     addUserLog({
-      username: updatedData.username || "bilinmiyor",
+      username: updatedData.addedBy || updatedData.username || req.body.username || req.body.addedBy || "bilinmiyor",
+      addedBy: updatedData.addedBy || updatedData.username || req.body.username || req.body.addedBy || "bilinmiyor",
       action: "Öğrenci bilgisi güncellendi (id ile)",
+      actionType: "Düzenlendi",
       studentId: id,
       timestamp: new Date().toISOString(),
     });
@@ -283,6 +284,29 @@ app.get("/api/logs", (req, res) => {
   } catch (err) {
     console.error("Loglar alınırken hata:", err);
     res.status(500).json({ success: false, message: "Loglar alınamadı" });
+  }
+});
+
+// Spor Okulu servislerini sadece okulId:1 olanları dönen endpoint
+app.get("/api/sporokulu-servisler", (req, res) => {
+  try {
+    if (!fs.existsSync(sporOkuluServisPath)) {
+      return res.json([]);
+    }
+    const data = fs.readFileSync(sporOkuluServisPath, "utf-8");
+    let servisler = [];
+    try {
+      servisler = JSON.parse(data);
+    } catch (parseErr) {
+      console.error("SporOkuluServis.json parse hatası:", parseErr);
+      return res.json([]);
+    }
+    // Sadece okulId:1 olanları döndür
+    const filtered = servisler.filter(s => Number(s.okulId) === 1);
+    res.json(filtered);
+  } catch (err) {
+    console.error("Spor Okulu servisleri alınırken hata:", err);
+    res.status(500).json({ success: false, message: "Spor Okulu servisleri alınamadı" });
   }
 });
 

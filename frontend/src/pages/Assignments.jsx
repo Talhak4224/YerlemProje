@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useTheme } from "../ThemeContext";
 import { useNavigate } from "react-router-dom";
 
 function generateRandomOgrenciId() {
@@ -30,6 +31,7 @@ function matchesWithSpecialYFilter(dataStr, filterStr) {
 }
 
 export default function Assignments() {
+  const { darkMode } = useTheme();
   const [students, setStudents] = useState([]);
   const [okullar, setOkullar] = useState([]);
   const [error, setError] = useState("");
@@ -143,7 +145,7 @@ export default function Assignments() {
         }
       `}</style>
 
-      <div className="bg-gray-50 min-h-screen font-sans flex flex-col items-center py-6 px-2 md:px-8 lg:px-12">
+  <div className={`min-h-screen font-sans flex flex-col items-center py-6 px-2 md:px-8 lg:px-12 transition-colors duration-500 ${darkMode ? "bg-gray-900 text-gray-200" : "bg-gray-50 text-gray-900"}`}>
         <div className="w-full max-w-[1800px] mb-6 flex justify-end">
           <button
             onClick={() => navigate("/home/addstudent")}
@@ -167,7 +169,7 @@ export default function Assignments() {
         <div className="table-container" style={{ maxWidth: "1800px", minWidth: "900px", overflowX: "auto" }}>
           <table style={{ tableLayout: "fixed", width: "100%" }}>
             <colgroup>
-              <col style={{ width:  "8%" }} />
+              <col style={{ width: "8%" }} />
               <col style={{ width: "14%" }} />
               <col style={{ width: "15%" }} />
               <col style={{ width: "18%" }} />
@@ -175,7 +177,7 @@ export default function Assignments() {
               <col style={{ width: "15%" }} />
             </colgroup>
             <thead>
-              <tr className="bg-gray-200 text-gray-800 uppercase font-semibold tracking-wide">
+              <tr className={`uppercase font-semibold tracking-wide ${darkMode ? 'bg-gray-800 text-gray-100' : 'bg-gray-200 text-gray-800'}`}>
                 {["ID", "Adı", "Soyadı", "Okul Adı", "Güzergah", ""].map(
                   (header, idx) => (
                     <th key={idx} title={header}>
@@ -184,10 +186,10 @@ export default function Assignments() {
                   )
                 )}
               </tr>
-              <tr className="bg-gray-100 text-gray-600">
+              <tr className={`${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-600'}`}>
                 <th>
                   <input
-                    className="w-full px-2 py-1 rounded-sm border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition"
+                    className={`w-full px-2 py-1 rounded-sm border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition bg-white ${darkMode ? 'text-gray-900' : 'text-gray-700'}`}
                     placeholder="Ara..."
                     value={filterOgrenciId}
                     onChange={e => {
@@ -200,7 +202,7 @@ export default function Assignments() {
                   (filterValue, idx) => (
                     <th key={idx}>
                       <input
-                        className="w-full px-2 py-1 rounded-sm border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition"
+                        className={`w-full px-2 py-1 rounded-sm border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition ${darkMode ? 'text-gray-100' : 'text-gray-700'}`}
                         placeholder="Ara..."
                         value={filterValue}
                         onChange={(e) => {
@@ -237,16 +239,15 @@ export default function Assignments() {
                   return (
                     <tr
                       key={s.id}
-                      className={`hover:shadow-lg hover:bg-gray-50 cursor-pointer animate-fadeInUp ${
-                        i % 2 === 0 ? "bg-white" : "bg-gray-50"
-                      }`}
+                      className={`hover:shadow-lg cursor-pointer animate-fadeInUp ${darkMode ? (i % 2 === 0 ? 'bg-gray-800' : 'bg-gray-700') : (i % 2 === 0 ? 'bg-white' : 'bg-gray-50')}
+                        }`}
                     >
-                      <td title={s.ogrenciId} className="font-mono text-gray-700">
+                      <td title={s.ogrenciId} className={`font-mono ${darkMode ? 'text-gray-100' : 'text-gray-700'}`}>
                         {s.ogrenciId}
                       </td>
                       <td title={s.ad}>{s.ad}</td>
                       <td title={s.soyad}>{s.soyad}</td>
-                      <td title={s.okulAdi} className="font-mono text-gray-600">
+                      <td title={s.okulAdi} className={`font-mono ${darkMode ? 'text-gray-100' : 'text-gray-600'}`}>
                         {s.okulAdi}
                       </td>
                       <td
@@ -300,11 +301,10 @@ export default function Assignments() {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`px-6 py-2 rounded-md font-semibold tracking-wide transition ${
-                currentPage === 1
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-600 text-gray-100 hover:bg-gray-700 transform hover:scale-105 active:scale-95"
-              }`}
+              className={`px-6 py-2 rounded-md font-semibold tracking-wide transition ${currentPage === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-600 text-gray-100 hover:bg-gray-700 transform hover:scale-105 active:scale-95"
+                }`}
             >
               Önceki
             </button>
@@ -314,11 +314,10 @@ export default function Assignments() {
                 <button
                   key={page}
                   onClick={() => handlePageChange(page)}
-                  className={`px-6 py-2 rounded-md font-semibold tracking-wide transition ${
-                    currentPage === page
-                      ? "bg-gray-700 text-gray-100 shadow-md"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-400 hover:text-gray-100"
-                  }`}
+                  className={`px-6 py-2 rounded-md font-semibold tracking-wide transition ${currentPage === page
+                    ? "bg-gray-700 text-gray-100 shadow-md"
+                    : `${darkMode ? 'bg-gray-800 text-gray-100 hover:bg-gray-700' : 'bg-gray-200 text-gray-700 hover:bg-gray-400 hover:text-gray-100'}`
+                    }`}
                   aria-current={currentPage === page ? "page" : undefined}
                 >
                   {page}
@@ -328,11 +327,10 @@ export default function Assignments() {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`px-6 py-2 rounded-md font-semibold tracking-wide transition ${
-                currentPage === totalPages
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-600 text-gray-100 hover:bg-gray-700 transform hover:scale-105 active:scale-95"
-              }`}
+              className={`px-6 py-2 rounded-md font-semibold tracking-wide transition ${currentPage === totalPages
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-600 text-gray-100 hover:bg-gray-700 transform hover:scale-105 active:scale-95"
+                }`}
             >
               Sonraki
             </button>
@@ -341,4 +339,4 @@ export default function Assignments() {
       </div>
     </>
   );
-}
+} 

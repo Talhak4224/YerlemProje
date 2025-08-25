@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useTheme } from "../ThemeContext";
 import { useNavigate } from "react-router-dom";
 
 function generateStudentId() {
@@ -31,6 +32,7 @@ function Spinner() {
 }
 
 export default function AddStudent() {
+    const { darkMode } = useTheme();
     const navigate = useNavigate();
 
     const [form, setForm] = useState({
@@ -98,16 +100,34 @@ export default function AddStudent() {
         }
         const fetchServisler = async () => {
             try {
-                const response = await fetch(`http://localhost:5015/api/servisler?okulId=${form.okulId}`);
-                if (!response.ok) throw new Error(`HTTP hata: ${response.status}`);
-                const data = await response.json();
-                const formattedData = data.map(item => ({
-                    id: item.id || item._id,
-                    servisAdi: item.servisAdi || item.adi || item.name,
-                    plaka: item.plaka || item.plakaNo || "",
-                    surucu: item.surucu || item.driver || "",
-                })).filter(item => item.id && item.servisAdi);
-                setServisler(formattedData);
+                if (form.okulId.toString() === "1") {
+                    // Sadece okulId:1 olan servisler gelsin
+                    const response = await fetch("http://localhost:5015/api/sporokulu-servisler");
+                    if (!response.ok) throw new Error(`HTTP hata: ${response.status}`);
+                    const data = await response.json();
+                    // Burada sadece okulId:1 olanlar backend'de filtreleniyor, yine de güvenli olması için tekrar filtrele
+                    const filtered = data.filter(item => String(item.okulId) === "1");
+                    const formattedData = filtered.map(item => ({
+                        id: item.id,
+                        servisAdi: item.servisAdi,
+                        plaka: item.plaka,
+                        surucu: item.surucu,
+                    }));
+                    setServisler(formattedData);
+                } else {
+                    // Diğer okullarda sadece ilgili okulId'ye ait servisler gelsin
+                    const response = await fetch(`http://localhost:5015/api/servisler?okulId=${form.okulId}`);
+                    if (!response.ok) throw new Error(`HTTP hata: ${response.status}`);
+                    const data = await response.json();
+                    const filtered = data.filter(item => String(item.okulId) === form.okulId.toString());
+                    const formattedData = filtered.map(item => ({
+                        id: item.id || item._id,
+                        servisAdi: item.servisAdi || item.adi || item.name,
+                        plaka: item.plaka || item.plakaNo || "",
+                        surucu: item.surucu || item.driver || "",
+                    })).filter(item => item.id && item.servisAdi);
+                    setServisler(formattedData);
+                }
             } catch (error) {
                 console.error("Servisler alınamadı:", error);
                 setError("Servisler yüklenemedi. Okul seçimini kontrol edin.");
@@ -150,6 +170,12 @@ export default function AddStudent() {
         } else if (name === "konum") {
             const cleaned = value.replace(/[^0-9.,\- ]/g, "");
             setForm(prev => ({ ...prev, konum: cleaned }));
+        } else if (name === "telefon") {
+
+            let cleaned = value.replace(/[^0-9]/g, "");
+            if (cleaned.startsWith("0")) cleaned = cleaned.slice(1);
+            if (cleaned.length > 10) cleaned = cleaned.slice(0, 10);
+            setForm(prev => ({ ...prev, telefon: cleaned }));
         } else {
             setForm(prev => ({ ...prev, [name]: value }));
         }
@@ -208,6 +234,12 @@ export default function AddStudent() {
             setError("Konum geçerli formatta olmalıdır. Örnek: 37.866700, 32.510515");
             return;
         }
+
+        if (!/^[1-9][0-9]{9}$/.test(form.telefon)) {
+            setError("Telefon numarası 10 haneli olmalı ve 0 ile başlayamaz. Örn: 5551010555");
+            return;
+        }
+
         if (!form.sabah && !form.aksam) {
             setError("Lütfen Sabah ve/veya Akşam servislerinden en az birini seçin");
             return;
@@ -292,14 +324,14 @@ export default function AddStudent() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-10 mt-12 font-sans relative">
+        <div className={`max-w-4xl mx-auto rounded-xl shadow-md p-10 mt-12 font-sans relative transition-colors duration-500 ${darkMode ? "bg-gray-900 text-gray-200" : "bg-white text-gray-900"}`}>
             {success && (
                 <div className="absolute top-5 left-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg font-semibold z-50">
                     Öğrenci başarıyla eklendi!
                 </div>
             )}
 
-            <h2 className="text-3xl font-extrabold mb-10 text-center text-gray-900 tracking-wide">
+                <h2 className={`text-3xl font-extrabold mb-10 text-center tracking-wide ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Öğrenci Ekle
             </h2>
 
@@ -308,8 +340,8 @@ export default function AddStudent() {
                     {error}
                 </div>
             )}
-
             <form
+
                 onSubmit={handleSubmit}
                 className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-xl mx-auto"
                 noValidate
@@ -318,7 +350,7 @@ export default function AddStudent() {
                     <div key={name} className="flex flex-col">
                         <label
                             htmlFor={name}
-                            className="mb-2 text-gray-700 font-medium select-none"
+                            className={`mb-2 font-medium select-none ${darkMode ? 'text-gray-100' : 'text-gray-700'}`}
                         >
                             {name.charAt(0).toUpperCase() + name.slice(1)}
                         </label>
@@ -330,16 +362,17 @@ export default function AddStudent() {
                             value={form[name]}
                             onChange={handleChange}
                             disabled={loading}
-                            className="border border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-400 focus:border-indigo-600 transition"
+                            className={`border border-gray-300 rounded-lg px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-400 focus:border-indigo-600 transition ${darkMode ? 'text-white bg-gray-900' : 'text-gray-900 bg-white'}`}
                             autoComplete="off"
                         />
                     </div>
                 ))}
 
+
                 <div ref={okulRef} className="relative col-span-full mt-6">
                     <label
                         htmlFor="okulDropdown"
-                        className="mb-2 text-gray-700 font-medium select-none cursor-pointer"
+                        className={`mb-2 font-medium select-none cursor-pointer ${darkMode ? 'text-gray-100' : 'text-gray-700'}`}
                         onClick={() => setOkulDropdownOpen((open) => !open)}
                     >
                         Okul Seç
@@ -356,21 +389,11 @@ export default function AddStudent() {
                     </div>
 
                     {okulDropdownOpen && (
-                        <div className="absolute z-50 bg-white border border-gray-300 rounded-lg w-full max-h-60 overflow-auto mt-1 shadow-lg">
-                            <input
-                                type="text"
-                                placeholder="Okul ara..."
-                                className="w-full px-3 py-2 border-b border-gray-300 focus:outline-none"
-                                value={okulSearch}
-                                onChange={(e) => setOkulSearch(e.target.value)}
-                                autoFocus
-                            />
-                            {filteredOkullar.length === 0 ? (
-                                <div className="p-3 text-gray-500 select-none">
-                                    {okulSearch ? "Aranan kriterde okul bulunamadı" : "Okul listesi boş"}
-                                </div>
+                        <div className={`absolute z-50 border border-gray-300 rounded-lg w-full max-h-60 overflow-auto mt-1 shadow-lg ${darkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-900'}`}>
+                            {okullar.length === 0 ? (
+                                <div className="p-3 text-gray-500 select-none">Okul listesi boş</div>
                             ) : (
-                                filteredOkullar.map((okul) => (
+                                okullar.map((okul) => (
                                     <div
                                         key={okul.id}
                                         className="px-4 py-2 hover:bg-indigo-600 hover:text-white cursor-pointer select-none"
@@ -387,7 +410,7 @@ export default function AddStudent() {
                 <div ref={servisRef} className="relative col-span-full mt-6">
                     <label
                         htmlFor="servisDropdown"
-                        className="mb-2 text-gray-700 font-medium select-none cursor-pointer"
+                        className={`mb-2 font-medium select-none cursor-pointer ${darkMode ? 'text-gray-100' : 'text-gray-700'}`}
                         onClick={() => {
                             if (form.okulId) setServisDropdownOpen((open) => !open);
                         }}
@@ -413,13 +436,13 @@ export default function AddStudent() {
                     </div>
 
                     {servisDropdownOpen && (
-                        <div className="absolute z-50 bg-white border border-gray-300 rounded-lg w-full max-h-60 overflow-auto mt-1 shadow-lg">
+                        <div className={`absolute z-50 border border-gray-300 rounded-lg w-full max-h-60 overflow-auto mt-1 shadow-lg ${darkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-900'}`}>
                             <input
+                                className={`w-full px-3 py-2 border-b border-gray-300 focus:outline-none ${darkMode ? 'text-white bg-gray-800 placeholder-gray-400' : 'text-gray-900 bg-white placeholder-gray-400'}`}
                                 type="text"
-                                placeholder="Servis ara (isim, plaka, sürücü)..."
-                                className="w-full px-3 py-2 border-b border-gray-300 focus:outline-none"
+                                placeholder="Servis ara..."
                                 value={servisSearch}
-                                onChange={(e) => setServisSearch(e.target.value)}
+                                onChange={e => setServisSearch(e.target.value)}
                                 autoFocus
                                 disabled={!form.okulId}
                             />

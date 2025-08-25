@@ -1,58 +1,1234 @@
 [
     {
         "id": 1,
-        "okulId": 1,
-        "servisAdi": "1-B - PZT-ÇAR-CUM 10.00",
-        "plaka": "34XYZ12",
-        "surucu": "Mehmet Yılmaz"
+         "okulId": 1,
+        "servisAdi": "1 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42c1315",
+        "surucu": "hasanakyuz"
     },
     {
         "id": 2,
         "okulId": 1,
-        "servisAdi": "1-B - PZT-ÇAR-CUM 14.30",
-        "plaka": "34XYZ12",
-        "surucu": "Mehmet Yılmaz"
+        "servisAdi": "1 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42c1315",
+        "surucu": "hasanakyuz"
     },
     {
         "id": 3,
         "okulId": 1,
-        "servisAdi": "1-B - SAL-PER-CMT 10.00",
-        "plaka": "34XYZ12",
-        "surucu": "Mehmet Yılmaz"
+        "servisAdi": "1 - SAL-PER-CMT 10.00",
+        "plaka": "42c1315",
+        "surucu": "hasanakyuz"
     },
     {
         "id": 4,
         "okulId": 1,
-        "servisAdi": "1-B - SAL-PER-CMT 14.30",
-        "plaka": "34XYZ12",
-        "surucu": "Mehmet Yılmaz"
+        "servisAdi": "1 - SAL-PER-CMT 14.30",
+        "plaka": "42c1315",
+        "surucu": "hasanakyuz"
     },
     {
         "id": 5,
-        "okulId": 2,
-        "servisAdi": "1-A - PZT-ÇAR-CUM 10.00",
-        "plaka": "34XYZ12",
-        "surucu": "Selami Yılmaz"
+        "okulId": 1,
+        "servisAdi": "1-B - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1166",
+        "surucu": "mevlutozkan"
     },
     {
         "id": 6,
-        "okulId": 2,
-        "servisAdi": "1-A - PZT-ÇAR-CUM 14.30",
-        "plaka": "34XYZ12",
-        "surucu": "Selami Yılmaz"
+        "okulId": 1,
+        "servisAdi": "1-B - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1166",
+        "surucu": "mevlutozkan"
     },
     {
         "id": 7,
-        "okulId": 2,
-        "servisAdi": "1-A - SAL-PER-CMT 10.00",
-        "plaka": "34XYZ12",
-        "surucu": "Selami Yılmaz"
+        "okulId": 1,
+        "servisAdi": "1-B - SAL-PER-CMT 10.00",
+        "plaka": "42C1166",
+        "surucu": "mevlutozkan"
     },
     {
         "id": 8,
-        "okulId": 2,
-        "servisAdi": "1-A - SAL-PER-CMT 14.30",
-        "plaka": "34XYZ12",
-        "surucu": "Selami Yılmaz"
+        "okulId": 1,
+        "servisAdi": "1-B - SAL-PER-CMT 14.30",
+        "plaka": "42C1166",
+        "surucu": "mevlutozkan"
+    },
+    {
+        "id": 9,
+        "okulId": 1,
+        "servisAdi": "2 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1116",
+        "surucu": "selmansari"
+    },
+    {
+        "id": 10,
+        "okulId": 1,
+        "servisAdi": "2 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1166",
+        "surucu": "selmansari"
+    },
+    {
+        "id": 11,
+        "okulId": 1,
+        "servisAdi": "2 - SAL-PER-CMT 10.00",
+        "plaka": "42C1166",
+        "surucu": "selmansari"
+    },
+    {
+        "id": 12,
+        "okulId": 1,
+        "servisAdi": "2 - SAL-PER-CMT 14.30",
+        "plaka": "42C1166",
+        "surucu": "selmansari"
+    },
+    {
+        "id": 13,
+        "okulId": 1,
+        "servisAdi": "2-B - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1057",
+        "surucu": "onurekmekcioglu"
+    },
+    {
+        "id": 14,
+        "okulId": 1,
+        "servisAdi": "2-B - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1057",
+        "surucu": "onurekmekcioglu"
+    },
+    {
+        "id": 15,
+        "okulId": 1,
+        "servisAdi": "2-B - SAL-PER-CMT 10.00",
+        "plaka": "42C1057",
+        "surucu": "onurekmekcioglu"
+    },
+    {
+        "id": 16,
+        "okulId": 1,
+        "servisAdi": "2-B - SAL-PER-CMT 14.30",
+        "plaka": "42C1057",
+        "surucu": "onurekmekcioglu"
+    },
+    {
+        "id": 17,
+        "okulId": 1,
+        "servisAdi": "3 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0812",
+        "surucu": "mehmetsengul"
+    },
+    {
+        "id": 18,
+        "okulId": 1,
+        "servisAdi": "3- PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0812",
+        "surucu": "mehmetsengul"
+    },
+    {
+        "id": 19,
+        "okulId": 1,
+        "servisAdi": "3- SAL-PER-CMT 10.00",
+        "plaka": "42C0812",
+        "surucu": "mehmetsengul"
+    },
+    {
+        "id": 20,
+        "okulId": 1,
+        "servisAdi": "3- SAL-PER-CMT 14.30",
+        "plaka": "42C0812",
+        "surucu": "mehmetsengul"
+    },
+    {
+        "id": 21,
+        "okulId": 1,
+        "servisAdi": "3-A - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0830",
+        "surucu": "mustafaalim"
+    },
+    {
+        "id": 22,
+        "okulId": 1,
+        "servisAdi": "3-A - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0830",
+        "surucu": "mustafaalim"
+    },
+    {
+        "id": 23,
+        "okulId": 1,
+        "servisAdi": "3-A - SAL-PER-CMT 10.00",
+        "plaka": "42C0830",
+        "surucu": "mustafaalim"
+    },
+    {
+        "id": 24,
+        "okulId": 1,
+        "servisAdi": "3-A - SAL-PER-CMT 14.30",
+        "plaka": "42C0830",
+        "surucu": "mustafaalim"
+    },
+    {
+        "id": 25,
+        "okulId": 1,
+        "servisAdi": "3-B - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0089",
+        "surucu": "abdullahkocak"
+    },
+    {
+        "id": 26,
+        "okulId": 1,
+        "servisAdi": "3-B - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0089",
+        "surucu": "abdullahkocak"
+    },
+    {
+        "id": 27,
+        "okulId": 1,
+        "servisAdi": "3-B - SAL-PER-CMT 10.00",
+        "plaka": "42C0089",
+        "surucu": "abdullahkocak"
+    },
+    {
+        "id": 28,
+        "okulId": 1,
+        "servisAdi": "3-B - SAL-PER-CMT 14.30",
+        "plaka": "42C0089",
+        "surucu": "abdullahkocak"
+    },
+    {
+        "id": 29,
+        "okulId": 1,
+        "servisAdi": "4 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0927",
+        "surucu": "mehmetgursoy"
+    },
+    {
+        "id": 30,
+        "okulId": 1,
+        "servisAdi": "4 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0927",
+        "surucu": "mehmetgursoy"
+    },
+    {
+        "id": 31,
+        "okulId": 1,
+        "servisAdi": "4 - SAL-PER-CMT 10.00",
+        "plaka": "42C0927",
+        "surucu": "mehmetgursoy"
+    },
+    {
+        "id": 32,
+        "okulId": 1,
+        "servisAdi": "4 - SAL-PER-CMT 14.30",
+        "plaka": "42C0927",
+        "surucu": "mehmetgursoy"
+    },
+    {
+        "id": 33,
+        "okulId": 1,
+        "servisAdi": "5 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0747",
+        "surucu": "nihatderin"
+    },
+    {
+        "id": 34,
+        "okulId": 1,
+        "servisAdi": "5 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0747",
+        "surucu": "nihatderin"
+    },
+    {
+        "id": 35,
+        "okulId": 1,
+        "servisAdi": "5 - SAL-PER-CMT 10.00",
+        "plaka": "42C0747",
+        "surucu": "nihatderin"
+    },
+    {
+        "id": 36,
+        "okulId": 1,
+        "servisAdi": "5 - SAL-PER-CMT 14.30",
+        "plaka": "42C0747",
+        "surucu": "nihatderin"
+    },
+    {
+        "id": 37,
+        "okulId": 1,
+        "servisAdi": "6 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0621",
+        "surucu": "tahsincelik"
+    },
+    {
+        "id": 38,
+        "okulId": 1,
+        "servisAdi": "6 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0621",
+        "surucu": "tahsincelik"
+    },
+    {
+        "id": 39,
+        "okulId": 1,
+        "servisAdi": "6 - SAL-PER-CMT 10.00",
+        "plaka": "42C0621",
+        "surucu": "tahsincelik"
+    },
+    {
+        "id": 40,
+        "okulId": 1,
+        "servisAdi": "6 - SAL-PER-CMT 14.30",
+        "plaka": "42C0621",
+        "surucu": "tahsincelik"
+    },
+    {
+        "id": 41,
+        "okulId": 1,
+        "servisAdi": "7 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0745",
+        "surucu": "hasanhuseyinacar"
+    },
+    {
+        "id": 42,
+        "okulId": 1,
+        "servisAdi": "7 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0745",
+        "surucu": "hasanhuseyinacar"
+    },
+    {
+        "id": 43,
+        "okulId": 1,
+        "servisAdi": "7 - SAL-PER-CMT 10.00",
+        "plaka": "42C0745",
+        "surucu": "hasanhuseyinacar"
+    },
+    {
+        "id": 44,
+        "okulId": 1,
+        "servisAdi": "7 - SAL-PER-CMT 14.30",
+        "plaka": "42C0745",
+        "surucu": "hasanhuseyinacar"
+    },
+    {
+        "id": 45,
+        "okulId": 1,
+        "servisAdi": "8 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1069",
+        "surucu": "yusufsari"
+    },
+    {
+        "id": 46,
+        "okulId": 1,
+        "servisAdi": "8 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1069",
+        "surucu": "yusufsari"
+    },
+    {
+        "id": 47,
+        "okulId": 1,
+        "servisAdi": "8 - SAL-PER-CMT 10.00",
+        "plaka": "42C1069",
+        "surucu": "yusufsari"
+    },
+    {
+        "id": 48,
+        "okulId": 1,
+        "servisAdi": "8 - SAL-PER-CMT 14.30",
+        "plaka": "42C1069",
+        "surucu": "yusufsari"
+    },
+    {
+        "id": 49,
+        "okulId": 1,
+        "servisAdi": "9 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1332",
+        "surucu": "remziiris"
+    },
+    {
+        "id": 50,
+        "okulId": 1,
+        "servisAdi": "9 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1332",
+        "surucu": "remziiris"
+    },
+    {
+        "id": 51,
+        "okulId": 1,
+        "servisAdi": "9 - SAL-PER-CMT 10.00",
+        "plaka": "42C1332",
+        "surucu": "remziiris"
+    },
+    {
+        "id": 52,
+        "okulId": 1,
+        "servisAdi": "9 - SAL-PER-CMT 14.30",
+        "plaka": "42C1332",
+        "surucu": "remziiris"
+    },
+    {
+        "id": 53,
+        "okulId": 1,
+        "servisAdi": "11 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1329",
+        "surucu": "ahmetkirman"
+    },
+    {
+        "id": 54,
+        "okulId": 1,
+        "servisAdi": "11 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1329",
+        "surucu": "ahmetkirman"
+    },
+    {
+        "id": 55,
+        "okulId": 1,
+        "servisAdi": "11 - SAL-PER-CMT 10.00",
+        "plaka": "42C1330",
+        "surucu": "ahmetkirman"
+    },
+    {
+        "id": 56,
+        "okulId": 1,
+        "servisAdi": "11 - SAL-PER-CMT 14.30",
+        "plaka": "42C1330",
+        "surucu": "ahmetkirman"
+    },
+    {
+        "id": 57,
+        "okulId": 1,
+        "servisAdi": "12 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0823",
+        "surucu": "omeravsar"
+    },
+    {
+        "id": 58,
+        "okulId": 1,
+        "servisAdi": "12 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0823",
+        "surucu": "omeravsar"
+    },
+    {
+        "id": 59,
+        "okulId": 1,
+        "servisAdi": "12 - SAL-PER-CMT 10.00",
+        "plaka": "42C0823",
+        "surucu": "omeravsar"
+    },
+    {
+        "id": 60,
+        "okulId": 1,
+        "servisAdi": "12 - SAL-PER-CMT 14.30",
+        "plaka": "42C0823",
+        "surucu": "omeravsar"
+    },
+    {
+        "id": 61,
+        "okulId": 1,
+        "servisAdi": "13 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0624",
+        "surucu": "aslanefe"
+    },
+    {
+        "id": 62,
+        "okulId": 1,
+        "servisAdi": "13 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0624",
+        "surucu": "aslanefe"
+    },
+    {
+        "id": 63,
+        "okulId": 1,
+        "servisAdi": "13 - SAL-PER-CMT 10.00",
+        "plaka": "42C0624",
+        "surucu": "aslanefe"
+    },
+    {
+        "id": 64,
+        "okulId": 1,
+        "servisAdi": "13 - SAL-PER-CMT 14.30",
+        "plaka": "42C0624",
+        "surucu": "aslanefe"
+    },
+    {
+        "id": 65,
+        "okulId": 1,
+        "servisAdi": "14 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1108",
+        "surucu": "muhittinozkilic"
+    },
+    {
+        "id": 66,
+        "okulId": 1,
+        "servisAdi": "14 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1108",
+        "surucu": "muhittinozkilic"
+    },
+    {
+        "id": 67,
+        "okulId": 1,
+        "servisAdi": "14 - SAL-PER-CMT 10.00",
+        "plaka": "42C1108",
+        "surucu": "muhittinozkilic"
+    },
+    {
+        "id": 68,
+        "okulId": 1,
+        "servisAdi": "14 - SAL-PER-CMT 14.30",
+        "plaka": "42C1108",
+        "surucu": "muhittinozkilic"
+    },
+    {
+        "id": 69,
+        "okulId": 1,
+        "servisAdi": "15 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0864",
+        "surucu": "hikmetbuyukdemir"
+    },
+    {
+        "id": 70,
+        "okulId": 1,
+        "servisAdi": "15 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0864",
+        "surucu": "hikmetbuyukdemir"
+    },
+    {
+        "id": 71,
+        "okulId": 1,
+        "servisAdi": "15 - SAL-PER-CMT 10.00",
+        "plaka": "42C0864",
+        "surucu": "hikmetbuyukdemir"
+    },
+    {
+        "id": 72,
+        "okulId": 1,
+        "servisAdi": "15 - SAL-PER-CMT 14.30",
+        "plaka": "42C0864",
+        "surucu": "hikmetbuyukdemir"
+    },
+    {
+        "id": 73,
+        "okulId": 1,
+        "servisAdi": "16 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1261",
+        "surucu": "sefakutu"
+    },
+    {
+        "id": 74,
+        "okulId": 1,
+        "servisAdi": "16 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1261",
+        "surucu": "sefakutu"
+    },
+    {
+        "id": 75,
+        "okulId": 1,
+        "servisAdi": "16 - SAL-PER-CMT 10.00",
+        "plaka": "42C1261",
+        "surucu": "sefakutu"
+    },
+    {
+        "id": 76,
+        "okulId": 1,
+        "servisAdi": "16 - SAL-PER-CMT 14.30",
+        "plaka": "42C1261",
+        "surucu": "sefakutu"
+    },
+    {
+        "id": 77,
+        "okulId": 1,
+        "servisAdi": "17 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0867",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 78,
+        "okulId": 1,
+        "servisAdi": "17 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0867",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 79,
+        "okulId": 1,
+        "servisAdi": "17 - SAL-PER-CMT 10.00",
+        "plaka": "42C0867",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 80,
+        "okulId": 1,
+        "servisAdi": "17 - SAL-PER-CMT 14.30",
+        "plaka": "42C0867",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 81,
+        "okulId": 1,
+        "servisAdi": "18 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0796",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 82,
+        "okulId": 1,
+        "servisAdi": "18 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0796",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 83,
+        "okulId": 1,
+        "servisAdi": "18 - SAL-PER-CMT 10.00",
+        "plaka": "42C0796",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 84,
+        "okulId": 1,
+        "servisAdi": "18 - SAL-PER-CMT 14.30",
+        "plaka": "42C0796",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 85,
+        "okulId": 1,
+        "servisAdi": "19 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1063",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 86,
+        "okulId": 1,
+        "servisAdi": "19 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1063",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 87,
+        "okulId": 1,
+        "servisAdi": "19 - SAL-PER-CMT 10.00",
+        "plaka": "42C1063",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 88,
+        "okulId": 1,
+        "servisAdi": "19 - SAL-PER-CMT 14.30",
+        "plaka": "42C1063",
+        "surucu": "muratbulut"
+    },
+    {
+        "id": 89,
+        "okulId": 1,
+        "servisAdi": "20 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1316",
+        "surucu": "samiozkaya"
+    },
+    {
+        "id": 90,
+        "okulId": 1,
+        "servisAdi": "20 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1316",
+        "surucu": "samiozkaya"
+    },
+    {
+        "id": 91,
+        "okulId": 1,
+        "servisAdi": "20 - SAL-PER-CMT 10.00",
+        "plaka": "42C1316",
+        "surucu": "samiozkaya"
+    },
+    {
+        "id": 92,
+        "okulId": 1,
+        "servisAdi": "20 - SAL-PER-CMT 14.30",
+        "plaka": "42C1316",
+        "surucu": "samiozkaya"
+    },
+    {
+        "id": 93,
+        "okulId": 1,
+        "servisAdi": "21 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0135",
+        "surucu": "hasanguler"
+    },
+    {
+        "id": 94,
+        "okulId": 1,
+        "servisAdi": "21 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0135",
+        "surucu": "hasanguler"
+    },
+    {
+        "id": 95,
+        "okulId": 1,
+        "servisAdi": "21 - SAL-PER-CMT 10.00",
+        "plaka": "42C0135",
+        "surucu": "hasanguler"
+    },
+    {
+        "id": 96,
+        "okulId": 1,
+        "servisAdi": "21 - SAL-PER-CMT 14.30",
+        "plaka": "42C0135",
+        "surucu": "hasanguler"
+    },
+    {
+        "id": 97,
+        "okulId": 1,
+        "servisAdi": "21-B - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0746",
+        "surucu": "mustafatarhan"
+    },
+    {
+        "id": 98,
+        "okulId": 1,
+        "servisAdi": "21-B - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0746",
+        "surucu": "mustafatarhan"
+    },
+    {
+        "id": 99,
+        "okulId": 1,
+        "servisAdi": "21-B - SAL-PER-CMT 10.00",
+        "plaka": "42C0746",
+        "surucu": "mustafatarhan"
+    },
+    {
+        "id": 100,
+        "okulId": 1,
+        "servisAdi": "21-B - SAL-PER-CMT 14.30",
+        "plaka": "42C0746",
+        "surucu": "mustafatarhan"
+    },
+    {
+        "id": 101,
+        "okulId": 1,
+        "servisAdi": "22 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1167",
+        "surucu": "mehmetozturk"
+    },
+    {
+        "id": 102,
+        "okulId": 1,
+        "servisAdi": "22 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1167",
+        "surucu": "mehmetozturk"
+    },
+    {
+        "id": 103,
+        "okulId": 1,
+        "servisAdi": "22 - SAL-PER-CMT 10.00",
+        "plaka": "42C1167",
+        "surucu": "mehmetozturk"
+    },
+    {
+        "id": 104,
+        "okulId": 1,
+        "servisAdi": "22 - SAL-PER-CMT 14.30",
+        "plaka": "42C1167",
+        "surucu": "mehmetozturk"
+    },
+    {
+        "id": 105,
+        "okulId": 1,
+        "servisAdi": "23 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0508",
+        "surucu": "osmankurak"
+    },
+    {
+        "id": 106,
+        "okulId": 1,
+        "servisAdi": "23 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0508",
+        "surucu": "osmankurak"
+    },
+    {
+        "id": 107,
+        "okulId": 1,
+        "servisAdi": "23 - SAL-PER-CMT 10.00",
+        "plaka": "42C0508",
+        "surucu": "osmankurak"
+    },
+    {
+        "id": 108,
+        "okulId": 1,
+        "servisAdi": "23 - SAL-PER-CMT 14.30",
+        "plaka": "42C0508",
+        "surucu": "osmankurak"
+    },
+    {
+        "id": 109,
+        "okulId": 1,
+        "servisAdi": "24 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0986",
+        "surucu": "mustafapoyraz"
+    },
+    {
+        "id": 110,
+        "okulId": 1,
+        "servisAdi": "24 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0986",
+        "surucu": "mustafapoyraz"
+    },
+    {
+        "id": 111,
+        "okulId": 1,
+        "servisAdi": "24 - SAL-PER-CMT 10.00",
+        "plaka": "42C0986",
+        "surucu": "mustafapoyraz"
+    },
+    {
+        "id": 112,
+        "okulId": 1,
+        "servisAdi": "24 - SAL-PER-CMT 14.30",
+        "plaka": "42C0986",
+        "surucu": "mustafapoyraz"
+    },
+    {
+        "id": 113,
+        "okulId": 1,
+        "servisAdi": "25 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0205",
+        "surucu": "ayhantastekin"
+    },
+    {
+        "id": 114,
+        "okulId": 1,
+        "servisAdi": "25 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0205",
+        "surucu": "ayhantastekin"
+    },
+    {
+        "id": 115,
+        "okulId": 1,
+        "servisAdi": "25 - SAL-PER-CMT 10.00",
+        "plaka": "42C0205",
+        "surucu": "ayhantastekin"
+    },
+    {
+        "id": 116,
+        "okulId": 1,
+        "servisAdi": "25 - SAL-PER-CMT 14.30",
+        "plaka": "42C0205",
+        "surucu": "ayhantastekin"
+    },
+    {
+        "id": 117,
+        "okulId": 1,
+        "servisAdi": "26 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0546",
+        "surucu": "seyitbagci"
+    },
+    {
+        "id": 118,
+        "okulId": 1,
+        "servisAdi": "26 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0546",
+        "surucu": "seyitbagci"
+    },
+    {
+        "id": 119,
+        "okulId": 1,
+        "servisAdi": "26 - SAL-PER-CMT 10.00",
+        "plaka": "42C0546",
+        "surucu": "seyitbagci"
+    },
+    {
+        "id": 120,
+        "okulId": 1,
+        "servisAdi": "26 - SAL-PER-CMT 14.30",
+        "plaka": "42C0546",
+        "surucu": "seyitbagci"
+    },
+    {
+        "id": 121,
+        "okulId": 1,
+        "servisAdi": "27 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1323",
+        "surucu": "mevlutyildiz"
+    },
+    {
+        "id": 122,
+        "okulId": 1,
+        "servisAdi": "27 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1323",
+        "surucu": "mevlutyildiz"    
+    },
+    {
+        "id": 123,
+        "okulId": 1,
+        "servisAdi": "27 - SAL-PER-CMT 10.00",
+        "plaka": "42C1323",
+        "surucu": "mevlutyildiz"
+    },
+    {
+        "id": 124,
+        "okulId": 1,
+        "servisAdi": "27 - SAL-PER-CMT 14.30",
+        "plaka": "42C1323",
+        "surucu": "mevlutyildiz"
+    },
+    {
+        "id": 125,
+        "okulId": 1,
+        "servisAdi": "28 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0820",
+        "surucu": "mustafaguzel"
+    },
+    {
+        "id": 126,
+        "okulId": 1,
+        "servisAdi": "28 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0820",
+        "surucu": "mustafaguzel"
+    },
+    {
+        "id": 127,
+        "okulId": 1,
+        "servisAdi": "28 - SAL-PER-CMT 10.00",
+        "plaka": "42C0820",
+        "surucu": "mustafaguzel"
+    },
+    {
+        "id": 128,
+        "okulId": 1,
+        "servisAdi": "28 - SAL-PER-CMT 14.30",
+        "plaka": "42C0820",
+        "surucu": "mustafaguzel"    
+    },
+    {
+        "id": 129,
+        "okulId": 1,
+        "servisAdi": "29 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1097",
+        "surucu": "arifaltan"
+    },
+    {
+        "id": 130,
+        "okulId": 1,
+        "servisAdi": "29 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1097",
+        "surucu": "arifaltan"
+    },
+    {
+        "id": 131,
+        "okulId": 1,
+        "servisAdi": "29 - SAL-PER-CMT 10.00",
+        "plaka": "42C1098",
+        "surucu": "arifaltan"
+    },
+    {
+        "id": 132,
+        "okulId": 1,
+        "servisAdi": "29 - SAL-PER-CMT 14.30",
+        "plaka": "42C1098",
+        "surucu": "arifaltan"
+    },
+    {
+        "id": 133,
+        "okulId": 1,
+        "servisAdi": "30 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0863",
+        "surucu": "ibrahimmutlu"
+    },
+    {
+        "id": 134,
+        "okulId": 1,
+        "servisAdi": "30 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0863",
+        "surucu": "ibrahimmutlu"
+    },
+    {
+        "id": 135,
+        "okulId": 1,
+        "servisAdi": "30 - SAL-PER-CMT 10.00",
+        "plaka": "42C0863",
+        "surucu": "ibrahimmutlu"
+    },
+    {
+        "id": 136,
+        "okulId": 1,
+        "servisAdi": "30 - SAL-PER-CMT 14.30",
+        "plaka": "42C0863",
+        "surucu": "ibrahimmutlu"
+    },
+    {
+        "id": 137,
+        "okulId": 1,
+        "servisAdi": "31 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0984",
+        "surucu": "alikilinc"
+    },
+    {
+        "id": 138,
+        "okulId": 1,
+        "servisAdi": "31 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0984",
+        "surucu": "alikilinc"
+    },
+    {
+        "id": 139,
+        "okulId": 1,
+        "servisAdi": "31 - SAL-PER-CMT 10.00",
+        "plaka": "42C0984",
+        "surucu": "alikilinc"
+    },
+    {
+        "id": 140,
+        "okulId": 1,
+        "servisAdi": "31 - SAL-PER-CMT 14.30",
+        "plaka": "42C0984",
+        "surucu": "alikilinc"
+    },
+    {
+        "id": 141,
+        "okulId": 1,
+        "servisAdi": "32 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1176",
+        "surucu": "yasarcelikten"
+    },
+    {
+        "id": 142,
+        "okulId": 1,
+        "servisAdi": "32 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1176",
+        "surucu": "yasarcelikten"
+    },
+    {
+        "id": 143,
+        "okulId": 1,
+        "servisAdi": "32 - SAL-PER-CMT 10.00",
+        "plaka": "42C1176",
+        "surucu": "yasarcelikten"
+    },
+    {
+        "id": 144,
+        "okulId": 1,
+        "servisAdi": "32 - SAL-PER-CMT 14.30",
+        "plaka": "42C1176",
+        "surucu": "yasarcelikten"
+    },
+    {
+        "id": 145,
+        "okulId": 1,
+        "servisAdi": "33 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0126",
+        "surucu": "haydarogutcu"
+    },
+    {
+        "id": 146,
+        "okulId": 1,
+        "servisAdi": "33 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0126",
+        "surucu": "haydarogutcu"
+    },
+    {
+        "id": 147,
+        "okulId": 1,
+        "servisAdi": "33 - SAL-PER-CMT 10.00",
+        "plaka": "42C0126",
+        "surucu": "haydarogutcu"
+    },
+    {
+        "id": 148,
+        "okulId": 1,
+        "servisAdi": "33 - SAL-PER-CMT 14.30",
+        "plaka": "42C0126",
+        "surucu": "haydarogutcu"
+    },
+    {
+        "id": 149,
+        "okulId": 1,
+        "servisAdi": "34 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1355",
+        "surucu": "huseyingunduz"
+    },
+    {
+        "id": 150,
+        "okulId": 1,
+        "servisAdi": "34 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1355",
+        "surucu": "huseyingunduz"
+    },
+    {
+        "id": 151,
+        "okulId": 1,
+        "servisAdi": "34 - SAL-PER-CMT 10.00",
+        "plaka": "42C1355",
+        "surucu": "huseyingunduz"
+    },
+    {
+        "id": 152,
+        "okulId": 1,
+        "servisAdi": "34 - SAL-PER-CMT 14.30",
+        "plaka": "42C1355",
+        "surucu": "huseyingunduz"
+    },
+    {
+        "id": 153,
+        "okulId": 1,
+        "servisAdi": "35 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1109",
+        "surucu": "selmanfarisdogan"
+    },
+    {
+        "id": 154,
+        "okulId": 1,
+        "servisAdi": "35 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1109",
+        "surucu": "selmanfarisdogan"
+    },
+    {
+        "id": 155,
+        "okulId": 1,
+        "servisAdi": "35 - SAL-PER-CMT 10.00",
+        "plaka": "42C1109",
+        "surucu": "selmanfarisdogan"
+    },
+    {
+        "id": 156,
+        "okulId": 1,
+        "servisAdi": "35 - SAL-PER-CMT 14.30",
+        "plaka": "42C1109",
+        "surucu": "selmanfarisdogan"
+    },
+    {
+        "id": 157,
+        "okulId": 1,
+        "servisAdi": "36 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C1066",
+        "surucu": "mehmetatceken"
+    },
+    {
+        "id": 158,
+        "okulId": 1,
+        "servisAdi": "36 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C1066",
+        "surucu": "mehmetatceken"
+    },
+    {
+        "id": 159,
+        "okulId": 1,
+        "servisAdi": "36 - SAL-PER-CMT 10.00",
+        "plaka": "42C1066",
+        "surucu": "mehmetatceken"
+    },
+    {
+        "id": 160,
+        "okulId": 1,
+        "servisAdi": "36 - SAL-PER-CMT 14.30",
+        "plaka": "42C1066",
+        "surucu": "mehmetatceken"
+    },
+    {
+        "id": 161,
+        "okulId": 1,
+        "servisAdi": "37 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0750",
+        "surucu": "mehmeteminboge"
+    },
+    {
+        "id": 162,
+        "okulId": 1,
+        "servisAdi": "37 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0750",
+        "surucu": "mehmeteminboge"
+    },
+    {
+        "id": 163,
+        "okulId": 1,
+        "servisAdi": "37 - SAL-PER-CMT 10.00",
+        "plaka": "42C0750",
+        "surucu": "mehmeteminboge"
+    },
+    {
+        "id": 164,
+        "okulId": 1,
+        "servisAdi": "37 - SAL-PER-CMT 14.30",
+        "plaka": "42C0750",
+        "surucu": "mehmeteminboge"
+    },
+    {
+        "id": 165,
+        "okulId": 1,
+        "servisAdi": "38 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0641",
+        "surucu": "seyittarlaci"
+    },
+    {
+        "id": 166,
+        "okulId": 1,
+        "servisAdi": "38 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0641",
+        "surucu": "seyittarlaci"
+    },
+    {
+        "id": 167,
+        "okulId": 1,
+        "servisAdi": "38 - SAL-PER-CMT 10.00",
+        "plaka": "42C0641",
+        "surucu": "seyittarlaci"
+    },
+    {
+        "id": 168,
+        "okulId": 1,
+        "servisAdi": "38 - SAL-PER-CMT 14.30",
+        "plaka": "42C0641",
+        "surucu": "seyittarlaci"
+    },
+    {
+        "id": 169,
+        "okulId": 1,
+        "servisAdi": "39 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0023",
+        "surucu": "seckinbuyukbayram"
+    },
+    {
+        "id": 170,
+        "okulId": 1,
+        "servisAdi": "39 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0023",
+        "surucu": "seckinbuyukbayram"
+    },
+    {
+        "id": 171,
+        "okulId": 1,
+        "servisAdi": "39 - SAL-PER-CMT 10.00",
+        "plaka": "42C0023",
+        "surucu": "seckinbuyukbayram"
+    },
+    {
+        "id": 172,
+        "okulId": 1,
+        "servisAdi": "39 - SAL-PER-CMT 14.30",
+        "plaka": "42C0023",
+        "surucu": "seckinbuyukbayram"
+    },
+    {
+        "id": 173,
+        "okulId": 1,
+        "servisAdi": "40 - PZT-ÇAR-CUM 10.00",
+        "plaka": "42C0998",
+        "surucu": "ilyasduran"
+    },
+    {
+        "id": 174,
+        "okulId": 1,
+        "servisAdi": "40 - PZT-ÇAR-CUM 14.30",
+        "plaka": "42C0998",
+        "surucu": "ilyasduran"
+    },
+    {
+        "id": 175,
+        "okulId": 1,
+        "servisAdi": "40 - SAL-PER-CMT 10.00",
+        "plaka": "42C0998",
+        "surucu": "ilyasduran"
+    },
+    {
+        "id": 176,
+        "okulId": 1,
+        "servisAdi": "40 - SAL-PER-CMT 14.30",
+        "plaka": "42C0998",
+        "surucu": "ilyasduran"
     }
 ]
