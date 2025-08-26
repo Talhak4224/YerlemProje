@@ -77,17 +77,17 @@ export default function Home() {
                     <h2 className="text-3xl font-bold mb-12 select-none tracking-wide">Menü</h2>
                     <ul className="flex flex-col gap-7 text-lg flex-grow font-medium">
                         <li>
-                            <Link to="assignments" className={`flex items-center gap-4 px-5 py-3 rounded-lg transition duration-300 transform hover:scale-105 ${isActive("assignments")}`} onClick={() => setMenuOpen(false)}>
+                            <Link to="assignments" className={`flex items-center gap-4 px-5 py-3 rounded-lg transition duration-300 transform hover:scale-105 ${isActive("assignments")}`} onClick={() => { sessionStorage.setItem("allowedNavigation", "1"); setMenuOpen(false); }}>
                                 <FaClipboardList className="text-2xl" /> Öğrenci Bilgisi
                             </Link>
                         </li>
                         <li>
-                            <Link to="userinfo" className={`flex items-center gap-4 px-5 py-3 rounded-lg transition duration-300 transform hover:scale-105 ${isActive("userinfo")}`} onClick={() => setMenuOpen(false)}>
+                            <Link to="userinfo" className={`flex items-center gap-4 px-5 py-3 rounded-lg transition duration-300 transform hover:scale-105 ${isActive("userinfo")}`} onClick={() => { sessionStorage.setItem("allowedNavigation", "1"); setMenuOpen(false); }}>
                                 <FaUserCircle className="text-2xl" /> Kullanıcı Bilgisi
                             </Link>
                         </li>
                         <li>
-                            <Link to="userreport" className={`flex items-center gap-4 px-5 py-3 rounded-lg transition duration-300 transform hover:scale-105 ${isActive("userreport")}`} onClick={() => setMenuOpen(false)}>
+                            <Link to="userreport" className={`flex items-center gap-4 px-5 py-3 rounded-lg transition duration-300 transform hover:scale-105 ${isActive("userreport")}`} onClick={() => { sessionStorage.setItem("allowedNavigation", "1"); setMenuOpen(false); }}>
                                 <FaFileAlt className="text-2xl" /> Kullanıcı Raporu
                             </Link>
                         </li>

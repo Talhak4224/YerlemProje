@@ -2,282 +2,268 @@
     {
         "id": 1,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "1 - ABIDIN SANIYE ILK",
+        "plaka": "42C1116",
+        "surucu": "selmansari"
     },
     {
         "id": 2,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "2 - AYSE KEMAL ORT",
+        "plaka": "42C0508",
+        "surucu": "osmankurak"
     },
     {
         "id": 3,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "3 - TURK TELEKOM MTAL",
+        "plaka": "42C0205",
+        "surucu": "ayhantastekin"
     },
     {
         "id": 4,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "4 - TURK TELEKOM MTAL",
+        "plaka": "42C1143",
+        "surucu": "farukates"
     },
     {
         "id": 5,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "5 - TURK TELEKOM MTAL",
+        "plaka": "42C1346",
+        "surucu": "onurekmekcioglu"
     },
     {
         "id": 6,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "6 - AHMET YESEVI ORT",
+        "plaka": "42C0863",
+        "surucu": "ibrahimmutlu"
     },
     {
         "id": 7,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "7 - AHMET YESEVI ORT",
+        "plaka": "42C1176",
+        "surucu": "yasarcelikten"
     },
     {
         "id": 8,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "8 - AHMET YESEVI ORT",
+        "plaka": "42C1334",
+        "surucu": "mevlutyildiz"
     },
     {
         "id": 9,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "9 - MAHMUT SAMI KIZ",
+        "plaka": "42C1058",
+        "surucu": "mufitunlem"
     },
     {
         "id": 10,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "10 - MAHMUT SAMI KIZ",
+        "plaka": "42C0624",
+        "surucu": "aslanefe"
     },
     {
         "id": 11,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "11 - AHMET PERİHAN İLK",
+        "plaka": "42C0745",
+        "surucu": "hasanhuseyinacar"
     },
     {
         "id": 12,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "12 - MAHMUT SAMI ERK",
+        "plaka": "42C1355",
+        "surucu": "mehmetboyak"
     },
     {
         "id": 13,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "13 - MAHMUT SAMI ERK",
+        "plaka": "42C1060",
+        "surucu": "huseyingunduz"
     },
     {
         "id": 14,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "14 - MAHMUT SAMI KIZ",
+        "plaka": "42C0268",
+        "surucu": "ferdiyusan"
     },
     {
         "id": 15,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "15 - OVA UN ILK",
+        "plaka": "42C0621",
+        "surucu": "tahsincelik"
     },
     {
         "id": 16,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "16 - OVA UN ILK",
+        "plaka": "42C1261",
+        "surucu": "sefakutu"
     },
     {
         "id": 17,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "17 - OVA UN ILK",
+        "plaka": "42C0821",
+        "surucu": "yusufsari"
     },
     {
         "id": 18,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "18 - HASAN SERT ILK",
+        "plaka": "42C0750",
+        "surucu": "mehmeteminboge"
     },
     {
         "id": 19,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "19 - HASAN SERT ILK",
+        "plaka": "42C1129",
+        "surucu": "seyiterden"
     },
     {
         "id": 20,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "20 - HASAN SERT ILK",
+        "plaka": "42C0602",
+        "surucu": "arifahmetogullari"
     },
     {
         "id": 21,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "21 - SEHIT MEHMET IHL",
+        "plaka": "42c1349",
+        "surucu": "hasanduva"
     },
     {
         "id": 22,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "22 - SEHIT MEHMET IHL",
+        "plaka": "42c1083",
+        "surucu": "huseyingunduz"
     },
     {
         "id": 23,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "23 - SEHIT MEHMET IHL",
+        "plaka": "42c1319",
+        "surucu": "ilhantatalak"
     },
     {
         "id": 24,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "24 - NURI PAKDIL AIHL",
+        "plaka": "42c0921",
+        "surucu": "alimangircioglu"
     },
     {
         "id": 25,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "25 - NURI PAKDIL AIHL",
+        "plaka": "42c0858",
+        "surucu": "beratkan"
     },
     {
         "id": 26,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "26 - ALI ULVI AIHL",
+        "plaka": "42c0945",
+        "surucu": "nejdetbasavci"
     },
     {
         "id": 27,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "27 - ALI ULVI AIHL",
+        "plaka": "42c0722",
+        "surucu": "metinsuer"
     },
     {
         "id": 28,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "28 - ALI ULVI AIHL",
+        "plaka": "42c0749",
+        "surucu": "adnanyeniay"
     },
     {
         "id": 29,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "29 - ALI ULVI AIHL",
+        "plaka": "42c0928",
+        "surucu": "sureyyatekir"
     },
     {
         "id": 30,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "30 - ALI ULVI AIHL",
+        "plaka": "42c1105",
+        "surucu": "ahmetyasar"
     },
     {
         "id": 31,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "31 - AKABE IHO",
+        "plaka": "42c1099",
+        "surucu": "selmanfarisdogan"
     },
     {
         "id": 32,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "32 - AKABE IHO",
+        "plaka": "42c0862",
+        "surucu": "ahmetdemircialan"
     },
     {
         "id": 33,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "33 - AKABE IHO",
+        "plaka": "42c0955",
+        "surucu": "mevlutaltuntas"
     },
     {
         "id": 34,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "34 - AKABE IHO",
+        "plaka": "42c0982",
+        "surucu": "rafetcan"
     },
     {
         "id": 35,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "35 - AKABE IHO",
+        "plaka": "42c0723",
+        "surucu": "mehmetsarikaya"
     },
     {
         "id": 36,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "36 - AHMET PERİHAN İLK",
+        "plaka": "42c1083",
+        "surucu": "mevlutersoz"
     },
     {
         "id": 37,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "37 - AHMET YESEVI ORT",
+        "plaka": "42c0830",
+        "surucu": "mustafaalim"
     },
     {
         "id": 38,
         "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
-    },
-    {
-        "id": 39,
-        "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
-    },
-    {
-        "id": 40,
-        "okulId": 2,
-        "servisAdi": "",
-        "plaka": "",
-        "surucu": ""
+        "servisAdi": "38 - ABİDİN SANİYE İLK",
+        "plaka": "42C1315",
+        "surucu": "hasanakyuz"
     }
 ]
         

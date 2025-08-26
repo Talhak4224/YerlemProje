@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../ThemeContext";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditStudent() {
+  // allowedNavigation kontrolü ProtectedRoute'a taşındı
   const { darkMode } = useTheme();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -211,9 +213,12 @@ export default function EditStudent() {
                   onClick={() =>
                     setForm((prev) => ({ ...prev, servisAdi: servis }))
                   }
-                  className={`px-4 py-2 rounded cursor-pointer select-none transition ${form.servisAdi === servis
-                    ? "bg-indigo-600 text-white font-semibold"
-                    : "hover:bg-indigo-100 text-gray-800"
+                  className={`px-4 py-2 rounded cursor-pointer select-none transition
+                    ${form.servisAdi === servis
+                      ? 'bg-indigo-600 text-white font-semibold'
+                      : darkMode
+                        ? 'text-gray-100 hover:bg-indigo-100 hover:text-gray-800'
+                        : 'hover:bg-indigo-100 text-gray-800'
                     }`}
                 >
                   {servis}

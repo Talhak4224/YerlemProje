@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
 
 export default function UserInfo() {
     const { darkMode } = useTheme();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!sessionStorage.getItem("allowedNavigation")) {
+            if (window.location.pathname !== "/home/userinfo") {
+                window.history.replaceState(null, "", "/home/userinfo");
+            }
+            return;
+        }
+        sessionStorage.removeItem("allowedNavigation");
+    }, [navigate]);
     const user = JSON.parse(localStorage.getItem("user"));
 
     return (

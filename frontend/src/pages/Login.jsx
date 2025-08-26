@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useTheme } from "../ThemeContext";
-// Torch bileşenini Home.jsx'ten kopyalıyoruz
 function Torch({ darkMode }) {
     return (
         <div className="relative w-8 h-8 flex items-center justify-center cursor-pointer">
@@ -57,9 +56,9 @@ export default function Login() {
             }
 
             const data = await res.json();
-            localStorage.setItem("user", JSON.stringify(data.user));
+            sessionStorage.setItem("user", JSON.stringify(data.user));
             if (data.user && data.user.username) {
-                localStorage.setItem("username", data.user.username);
+                sessionStorage.setItem("username", data.user.username);
             }
             navigate("/home/assignments");
         } catch (err) {

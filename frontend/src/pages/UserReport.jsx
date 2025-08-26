@@ -1,4 +1,7 @@
+
+
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
 
 function parseAction(action) {
@@ -10,12 +13,23 @@ function parseAction(action) {
     return "";
 }
 
+
 export default function UserReport() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!sessionStorage.getItem("allowedNavigation")) {
+            if (window.location.pathname !== "/home/userreport") {
+                window.history.replaceState(null, "", "/home/userreport");
+            }
+            return;
+        }
+        sessionStorage.removeItem("allowedNavigation");
+    }, [navigate]);
     const { darkMode } = useTheme();
     const [logs, setLogs] = useState([]);
     const [students, setStudents] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [filter, setFilter] = useState("Tümü");
+        const [filter, setFilter] = useState("Tümü");
 
     useEffect(() => {
         fetch("http://localhost:5015/api/logs")
@@ -30,8 +44,8 @@ export default function UserReport() {
     }, []);
 
     const filteredLogs = logs
-        .filter((log) =>
-            filter === "Tümü" ? true : parseAction(log.action) === filter
+            .filter((log) =>
+                filter === "Tümü" ? true : parseAction(log.action) === filter
         )
         .filter((log) =>
             (log.addedBy || "").toLowerCase().includes(searchTerm.toLowerCase())
@@ -60,8 +74,13 @@ export default function UserReport() {
                         type="text"
                         placeholder="Kullanıcı Ara..."
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="flex-grow border border-gray-300 rounded px-3 py-2 focus:outline-indigo-500"
+                                                onChange={(e) => {
+                                                    const val = e.target.value.trimStart();
+                                                    if (val === "" || val.replace(/\s/g, "") !== "") {
+                                                        setSearchTerm(val);
+                                                    }
+                                                }}
+                        className="flex-grow border border-gray-300 rounded px-3 py-2 focus:outline-indigo-500 text-black font-normal"
                     />
 
                     <select
@@ -69,7 +88,7 @@ export default function UserReport() {
                         onChange={(e) => setFilter(e.target.value)}
                         className={`border border-gray-300 rounded px-3 py-2 transition-colors duration-300 ${darkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-900'}`}
                     >
-                        <option value="Tümü">Tümü</option>
+                            <option value="Tümü">Tümü</option>
                         <option value="Eklendi">Eklendi</option>
                         <option value="Düzenlendi">Düzenlendi</option>
                         <option value="Silindi">Silindi</option>
@@ -154,34 +173,26 @@ export default function UserReport() {
                                                 {dateStr}
                                             </td>
                                             <td className="border px-2 py-1 whitespace-nowrap">
-                                                {stu.ad || "-"}
+                                                {log.ad || stu.ad || "-"}
                                             </td>
                                             <td className="border px-2 py-1 whitespace-nowrap">
-                                                {stu.soyad || "-"}
+                                                {log.soyad || stu.soyad || "-"}
                                             </td>
                                             <td className="border px-2 py-1 whitespace-nowrap">
-                                                {stu.ogrenciId ||
-                                                    log.studentId ||
-                                                    "-"}
+                                                {log.ogrenciId || log.studentId || stu.ogrenciId || stu.id || "-"}
                                             </td>
 
                                             <td className="border px-2 py-1 whitespace-nowrap">
-                                                {stu.okulAdi || "-"}
+                                                {log.okulAdi || stu.okulAdi || "-"}
                                             </td>
                                             <td className="border px-2 py-1 whitespace-nowrap">
-                                                {stu.servisAdi ||
-                                                    log.servisAdi ||
-                                                    "-"}
+                                                {log.servisAdi || stu.servisAdi || "-"}
                                             </td>
                                             <td className="border px-2 py-1 text-center">
-                                                {stu.sabah || log.sabah
-                                                    ? "✓"
-                                                    : ""}
+                                                {log.sabah !== undefined ? (log.sabah ? "✓" : "") : (stu.sabah ? "✓" : "")}
                                             </td>
                                             <td className="border px-2 py-1 text-center">
-                                                {stu.aksam || log.aksam
-                                                    ? "✓"
-                                                    : ""}
+                                                {log.aksam !== undefined ? (log.aksam ? "✓" : "") : (stu.aksam ? "✓" : "")}
                                             </td>
                                             <td className="border px-2 py-1 whitespace-nowrap">
                                                 {parseAction(log.action)}

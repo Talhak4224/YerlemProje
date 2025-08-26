@@ -31,6 +31,7 @@ function Spinner() {
     );
 }
 
+
 export default function AddStudent() {
     const { darkMode } = useTheme();
     const navigate = useNavigate();
@@ -101,11 +102,9 @@ export default function AddStudent() {
         const fetchServisler = async () => {
             try {
                 if (form.okulId.toString() === "1") {
-                    // Sadece okulId:1 olan servisler gelsin
                     const response = await fetch("http://localhost:5015/api/sporokulu-servisler");
                     if (!response.ok) throw new Error(`HTTP hata: ${response.status}`);
                     const data = await response.json();
-                    // Burada sadece okulId:1 olanlar backend'de filtreleniyor, yine de güvenli olması için tekrar filtrele
                     const filtered = data.filter(item => String(item.okulId) === "1");
                     const formattedData = filtered.map(item => ({
                         id: item.id,
@@ -115,7 +114,6 @@ export default function AddStudent() {
                     }));
                     setServisler(formattedData);
                 } else {
-                    // Diğer okullarda sadece ilgili okulId'ye ait servisler gelsin
                     const response = await fetch(`http://localhost:5015/api/servisler?okulId=${form.okulId}`);
                     if (!response.ok) throw new Error(`HTTP hata: ${response.status}`);
                     const data = await response.json();

@@ -1,4 +1,3 @@
-// ...existing code...
 import express from "express";
 import fs from "fs";
 import path from "path";
@@ -18,7 +17,7 @@ const okullarPath = path.join(__dirname, "okullar.json");
 const userLogsPath = path.join(__dirname, "userlogs.json");
 const studentsPath = path.join(__dirname, "students.json");
 const sporOkuluServisPath = path.join(__dirname, "SporOkuluServis.json");
-const ilimYaymaServisPath = path.join(__dirname, "İlimYaymaServis.json");
+const IlimYaymaServisPath = path.join(__dirname, "IlimYaymaServis.json");
 
 function addUserLog(logEntry) {
   try {
@@ -87,8 +86,8 @@ app.get("/api/servisler", (req, res) => {
       const data = fs.readFileSync(sporOkuluServisPath, "utf-8");
       servisler = servisler.concat(JSON.parse(data).filter(s => Number(s.okulId) === okulId));
     }
-    if (okulId === 2 && fs.existsSync(ilimYaymaServisPath)) {
-      const data = fs.readFileSync(ilimYaymaServisPath, "utf-8");
+    if (okulId === 2 && fs.existsSync(IlimYaymaServisPath)) {
+      const data = fs.readFileSync(IlimYaymaServisPath, "utf-8");
       servisler = servisler.concat(JSON.parse(data).filter(s => Number(s.okulId) === 2));
     }
     res.json(servisler);
@@ -287,7 +286,6 @@ app.get("/api/logs", (req, res) => {
   }
 });
 
-// Spor Okulu servislerini sadece okulId:1 olanları dönen endpoint
 app.get("/api/sporokulu-servisler", (req, res) => {
   try {
     if (!fs.existsSync(sporOkuluServisPath)) {
@@ -301,7 +299,6 @@ app.get("/api/sporokulu-servisler", (req, res) => {
       console.error("SporOkuluServis.json parse hatası:", parseErr);
       return res.json([]);
     }
-    // Sadece okulId:1 olanları döndür
     const filtered = servisler.filter(s => Number(s.okulId) === 1);
     res.json(filtered);
   } catch (err) {

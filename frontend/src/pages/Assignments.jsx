@@ -31,6 +31,8 @@ function matchesWithSpecialYFilter(dataStr, filterStr) {
 }
 
 export default function Assignments() {
+  const navigate = useNavigate();
+  // allowedNavigation kontrolü ProtectedRoute'a taşındı
   const { darkMode } = useTheme();
   const [students, setStudents] = useState([]);
   const [okullar, setOkullar] = useState([]);
@@ -39,7 +41,6 @@ export default function Assignments() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const navigate = useNavigate();
 
   const [filterAd, setFilterAd] = useState("");
   const [filterSoyad, setFilterSoyad] = useState("");
@@ -148,7 +149,10 @@ export default function Assignments() {
   <div className={`min-h-screen font-sans flex flex-col items-center py-6 px-2 md:px-8 lg:px-12 transition-colors duration-500 ${darkMode ? "bg-gray-900 text-gray-200" : "bg-gray-50 text-gray-900"}`}>
         <div className="w-full max-w-[1800px] mb-6 flex justify-end">
           <button
-            onClick={() => navigate("/home/addstudent")}
+            onClick={() => {
+              sessionStorage.setItem("allowedNavigation", "1");
+              navigate("/home/addstudent");
+            }}
             className="bg-gray-400 text-gray-900 px-5 py-2 rounded-md shadow-sm hover:bg-gray-500 transition-transform transform hover:scale-105 active:scale-95 font-semibold tracking-wide flex items-center space-x-2 select-none"
             title="Yeni öğrenci ekle"
           >
@@ -189,11 +193,14 @@ export default function Assignments() {
               <tr className={`${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-600'}`}>
                 <th>
                   <input
-                    className={`w-full px-2 py-1 rounded-sm border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition bg-white ${darkMode ? 'text-gray-900' : 'text-gray-700'}`}
+                    className={`w-full px-2 py-1 rounded-sm border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition bg-white text-black font-normal`}
                     placeholder="Ara..."
                     value={filterOgrenciId}
                     onChange={e => {
-                      setFilterOgrenciId(e.target.value);
+                      const val = e.target.value.trimStart();
+                      if (val === "" || val.replace(/\s/g, "") !== "") {
+                        setFilterOgrenciId(val);
+                      }
                       setCurrentPage(1);
                     }}
                   />
@@ -202,26 +209,28 @@ export default function Assignments() {
                   (filterValue, idx) => (
                     <th key={idx}>
                       <input
-                        className={`w-full px-2 py-1 rounded-sm border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition ${darkMode ? 'text-gray-100' : 'text-gray-700'}`}
+                          className={`w-full px-2 py-1 rounded-sm border border-gray-300 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition text-black font-normal`}
                         placeholder="Ara..."
                         value={filterValue}
                         onChange={(e) => {
-                          const val = e.target.value;
-                          switch (idx) {
-                            case 0:
-                              setFilterAd(val);
-                              break;
-                            case 1:
-                              setFilterSoyad(val);
-                              break;
-                            case 2:
-                              setFilterOkul(val);
-                              break;
-                            case 3:
-                              setFilterGuzergah(val);
-                              break;
-                            default:
-                              break;
+                          const val = e.target.value.trimStart();
+                          if (val === "" || val.replace(/\s/g, "") !== "") {
+                            switch (idx) {
+                              case 0:
+                                setFilterAd(val);
+                                break;
+                              case 1:
+                                setFilterSoyad(val);
+                                break;
+                              case 2:
+                                setFilterOkul(val);
+                                break;
+                              case 3:
+                                setFilterGuzergah(val);
+                                break;
+                              default:
+                                break;
+                            }
                           }
                           setCurrentPage(1);
                         }}
@@ -264,7 +273,10 @@ export default function Assignments() {
                       </td>
                       <td className="text-center">
                         <button
-                          onClick={() => navigate(`/home/editstudent/${s.id}`)}
+                          onClick={() => {
+                            sessionStorage.setItem("allowedNavigation", "1");
+                            navigate(`/home/editstudent/${s.id}`);
+                          }}
                           className="inline-flex items-center justify-center px-5 py-2 bg-gray-400 text-gray-900 rounded-sm shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-transform transform hover:scale-105 active:scale-95 select-none"
                           title={`Düzenle ${s.ad} ${s.soyad}`}
                           aria-label={`Düzenle ${s.ad} ${s.soyad}`}
